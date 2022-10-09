@@ -1,0 +1,41 @@
+{
+  "name": "bar_chart",
+  "displayName": "Bar Chart",
+  "filename": "BarChart.tsx",
+  "config": [
+    {
+      "name": "metric",
+      "label": "Metric",
+      "type": "metric"
+    },
+    {
+      "label": "Look and feel",
+      "type": "separator"
+    },
+    {
+      "name": "max",
+      "label": "Max Value",
+      "type": "number"
+    },
+    {
+      "name": "corner_radius",
+      "label": "Corner Radius",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "label": "Colors",
+      "type": "separator"
+    },
+    {
+      "name": "color",
+      "label": "Color",
+      "type": "color"
+    },
+    {
+      "name": "back_color",
+      "label": "Back Color",
+      "type": "color"
+    }
+  ]
+}
