@@ -63,8 +63,8 @@ const Value: FunctionComponent<ChannelValueProp> = (props) => {
 
   let v = value.value
 
-  if (isNumber(v)) {
-    v = v.toFixed(precision)
+  if (isNumber(v) && isNumber(precision)) {
+    v = parseFloat(v.toString()).toFixed(Math.max(0, Math.round(precision)))
   }
 
   return (
