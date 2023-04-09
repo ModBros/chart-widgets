@@ -141,6 +141,68 @@
       "name": "hide_unit",
       "label": "Hide Unit",
       "type": "checkbox"
+    },
+    {
+      "label": "Value (Date)",
+      "type": "separator"
+    },
+    {
+      "name": "time_format",
+      "label": "Time Format",
+      "type": "select",
+      "options": [
+        {
+          "label": "12h",
+          "value": "12h"
+        },
+        {
+          "label": "24h",
+          "value": "24h"
+        }
+      ]
+    },
+    {
+      "name": "hide_seconds",
+      "label": "Hide Seconds",
+      "type": "checkbox"
+    },
+    {
+      "name": "date_format",
+      "label": "Date Format",
+      "type": "select",
+      "options": [
+        {
+          "label": "DMY",
+          "value": "D-M-Y"
+        },
+        {
+          "label": "YMD",
+          "value": "Y-M-D"
+        },
+        {
+          "label": "MDY",
+          "value": "M-D-Y"
+        }
+      ]
+    },
+    {
+      "name": "date_separator",
+      "label": "Separator",
+      "type": "select",
+      "options": [
+        {
+          "label": "Dot",
+          "value": "."
+        },
+        {
+          "label": "Dash",
+          "value": "-"
+        },
+        {
+          "label": "Slash",
+          "value": "/"
+        }
+      ]
     }
   ]
 }

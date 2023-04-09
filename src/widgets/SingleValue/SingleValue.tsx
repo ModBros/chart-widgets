@@ -1,17 +1,21 @@
-import React, {CSSProperties, FunctionComponent} from 'react'
+import React, { CSSProperties, FunctionComponent } from 'react'
 import {
   Loading,
   MissingConfigPlaceholder,
   useCheckboxField,
   useColorField,
-  useFontField, useIsMetricFieldConfigured,
+  useFontField,
+  useIsMetricFieldConfigured,
   useMetricField,
+  useMetricFieldValueType,
   useNumberField,
-  useSelectField, useStringField
+  useSelectField,
+  useStringField
 } from '@modbros/dashboard-sdk'
 import styled from 'styled-components'
-import {isNumber, isEmpty} from 'lodash-es'
-import {ChannelValue} from '@modbros/dashboard-core'
+import { isEmpty, isNumber } from 'lodash-es'
+import { ChannelValue } from '@modbros/dashboard-core'
+import { format12h, format24h, formatDate } from '../../utils/metricUtils'
 
 const Container = styled.div`
   display: flex;
@@ -27,11 +31,11 @@ interface ChannelValueProp {
 }
 
 const Unit: FunctionComponent<ChannelValueProp> = (props) => {
-  const {channelValue} = props
-  const {unit} = channelValue
+  const { channelValue } = props
+  const { unit } = channelValue
 
-  const smallUnit = useCheckboxField({field: 'small_unit'})
-  const hideUnit = useCheckboxField({field: 'hide_unit'})
+  const smallUnit = useCheckboxField({ field: 'small_unit' })
+  const hideUnit = useCheckboxField({ field: 'hide_unit' })
 
   if (hideUnit) {
     return null
@@ -53,18 +57,43 @@ const Unit: FunctionComponent<ChannelValueProp> = (props) => {
 }
 
 const Value: FunctionComponent<ChannelValueProp> = (props) => {
-  const {channelValue} = props
-  const {value} = channelValue
+  const { channelValue } = props
+  const { value } = channelValue
 
-  const precision = useNumberField({field: 'precision', defaultValue: 0})
-  const valueFont = useFontField({field: 'value_font'})
-  const valueFontSize = useNumberField({field: 'value_font_size'})
-  const valueFontColor = useColorField({field: 'value_font_color'})
+  const precision = useNumberField({ field: 'precision', defaultValue: 0 })
+  const valueFont = useFontField({ field: 'value_font' })
+  const valueFontSize = useNumberField({ field: 'value_font_size' })
+  const valueFontColor = useColorField({ field: 'value_font_color' })
+  const timeFormat = useSelectField({
+    field: 'time_format',
+    defaultValue: '24h'
+  })
+  const hideSeconds = useCheckboxField({ field: 'hide_seconds' })
+  const dateFormat = useSelectField({
+    field: 'date_format',
+    defaultValue: 'Y-M-D'
+  })
+  const dateSeparator = useSelectField({
+    field: 'date_separator',
+    defaultValue: '-'
+  })
+  const valueType = useMetricFieldValueType(channelValue)
 
   let v = value.value
 
   if (isNumber(v) && isNumber(precision)) {
     v = parseFloat(v.toString()).toFixed(Math.max(0, Math.round(precision)))
+  }
+
+  if (valueType === 'date') {
+    const dateValue = new Date(v)
+    const time =
+      timeFormat === '12h'
+        ? format12h(dateValue, hideSeconds)
+        : format24h(dateValue, hideSeconds)
+    const date = formatDate(dateValue, dateFormat, dateSeparator)
+
+    v = `${date} ${time}`
   }
 
   return (
@@ -77,17 +106,17 @@ const Value: FunctionComponent<ChannelValueProp> = (props) => {
     >
       <span>{v}</span>
 
-      <Unit channelValue={channelValue}/>
+      <Unit channelValue={channelValue} />
     </strong>
   )
 }
 
 const Label: FunctionComponent<ChannelValueProp> = (props) => {
-  const {channelValue} = props
-  const {metric} = channelValue
+  const { channelValue } = props
+  const { metric } = channelValue
 
-  const hideLabel = useCheckboxField({field: 'hide_label'})
-  const customLabel = useStringField({field: 'label'})
+  const hideLabel = useCheckboxField({ field: 'hide_label' })
+  const customLabel = useStringField({ field: 'label' })
 
   if (hideLabel) {
     return null
@@ -97,7 +126,7 @@ const Label: FunctionComponent<ChannelValueProp> = (props) => {
 }
 
 const SingleValue: FunctionComponent = () => {
-  const channelValue = useMetricField({field: 'metric'})
+  const channelValue = useMetricField({ field: 'metric' })
   const verticalAlign = useSelectField({
     field: 'vertical_align',
     defaultValue: 'flex-start'
@@ -106,22 +135,28 @@ const SingleValue: FunctionComponent = () => {
     field: 'horizontal_align',
     defaultValue: 'flex-start'
   })
-  const hideLabel = useCheckboxField({field: 'hide_label'})
-  const spaceBetween = useCheckboxField({field: 'space_between'})
-  const font = useFontField({field: 'font'})
-  const fontSize = useNumberField({field: 'font_size'})
-  const fontColor = useColorField({field: 'font_color'})
-  const gap = useNumberField({field: 'gap'})
-  const alignment = useSelectField({field: 'alignment'})
-  const metricConfigured = useIsMetricFieldConfigured({field: 'metric'})
+  const hideLabel = useCheckboxField({ field: 'hide_label' })
+  const spaceBetween = useCheckboxField({ field: 'space_between' })
+  const font = useFontField({ field: 'font' })
+  const fontSize = useNumberField({ field: 'font_size' })
+  const fontColor = useColorField({ field: 'font_color' })
+  const gap = useNumberField({ field: 'gap' })
+  const alignment = useSelectField({ field: 'alignment' })
+  const metricConfigured = useIsMetricFieldConfigured({ field: 'metric' })
 
   if (!metricConfigured) {
-    return <MissingConfigPlaceholder text={'Please provide a metric'}/>;
+    return <MissingConfigPlaceholder text={'Please provide a metric'} />
   }
 
   if (!channelValue?.value) {
-    return <Loading/>
+    return <Loading />
   }
+
+  const label = <Label channelValue={channelValue} />
+  const value = <Value channelValue={channelValue} />
+
+  let first = label
+  let second = value
 
   const styles: CSSProperties = {
     width: spaceBetween && !hideLabel ? '100%' : 'auto',
@@ -132,12 +167,6 @@ const SingleValue: FunctionComponent = () => {
     gap: gap ? `${gap}px` : undefined,
     flexDirection: 'row'
   }
-
-  const label = <Label channelValue={channelValue}/>
-  const value = <Value channelValue={channelValue}/>
-
-  let first = label
-  let second = value
 
   if (alignment) {
     styles.flexDirection = 'column'
