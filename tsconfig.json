@@ -6,7 +6,10 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "target": "es2015",
+    "target": "es2021",
+    "lib": [
+      "es2021"
+    ],
     "moduleResolution": "node",
     "module": "esnext",
     "skipLibCheck": true,
