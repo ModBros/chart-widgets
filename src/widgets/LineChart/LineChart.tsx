@@ -1,17 +1,23 @@
-import React, {FunctionComponent, useRef} from 'react'
+import React, { FunctionComponent, useRef } from 'react'
 import {
   Loading,
-  MissingConfigPlaceholder, useCheckboxField,
-  useColorField, useFontField,
+  MissingConfigPlaceholder,
+  useCheckboxField,
+  useColorField,
+  useFontField,
   useIsMetricFieldConfigured,
   useItemSize,
-  useNumberField, useSelectField
-} from "@modbros/dashboard-sdk";
-import {Axis, Curve, Group, Shape} from '@visx/visx';
-import {TimedMetricValue, useMetricFieldHistory} from "../../utils/useMetricFieldHistory";
-import {scaleLinear} from 'd3-scale'
-import {extent} from 'd3-array'
-import {isNil} from 'lodash-es'
+  useNumberField,
+  useSelectField
+} from '@modbros/dashboard-sdk'
+import { Axis, Curve, Group, Shape } from '@visx/visx'
+import {
+  TimedMetricValue,
+  useMetricFieldHistory
+} from '../../utils/useMetricFieldHistory'
+import { scaleLinear } from 'd3-scale'
+import { extent } from 'd3-array'
+import { isNil } from 'lodash-es'
 
 function getCurve(curve: string) {
   switch (curve) {
@@ -28,30 +34,53 @@ function getCurve(curve: string) {
 }
 
 const LineChart: FunctionComponent = () => {
-  const metricConfigured = useIsMetricFieldConfigured({field: 'metric'});
-  const {width, height} = useItemSize()
-  const {values, unit} = useMetricFieldHistory({field: 'metric', limit: 15});
-  const lineColor = useColorField({field: 'line_color', defaultColor: '#000000'})
-  const lineCurve = useSelectField({field: 'line_curve', defaultValue: 'linear'})
-  const maxValue = useNumberField({field: 'max'})
-  const minValue = useNumberField({field: 'min'})
-  const lineWidth = useNumberField({field: 'line_width', defaultValue: 3});
-  const hideYAxis = useCheckboxField({field: 'hide_yaxis'})
-  const yaxisLabelFontSize = useNumberField({field: 'yaxis_label_font_size', defaultValue: 12});
-  const yaxisLabelFont = useFontField({field: 'yaxis_label_font'});
-  const yaxisLabelSpace = useNumberField({field: 'yaxis_label_space', defaultValue: yaxisLabelFontSize * 4});
-  const yaxisLabelColor = useColorField({field: 'yaxis_label_color', defaultColor: '#000000'})
+  const metricConfigured = useIsMetricFieldConfigured({ field: 'metric' })
+  const { width, height } = useItemSize()
+  const historyCount = useNumberField({
+    field: 'history_count',
+    defaultValue: 15
+  })
+  const { values, unit } = useMetricFieldHistory({
+    field: 'metric',
+    limit: historyCount
+  })
+  const lineColor = useColorField({
+    field: 'line_color',
+    defaultColor: '#000000'
+  })
+  const lineCurve = useSelectField({
+    field: 'line_curve',
+    defaultValue: 'linear'
+  })
+  const maxValue = useNumberField({ field: 'max' })
+  const minValue = useNumberField({ field: 'min' })
+  const lineWidth = useNumberField({ field: 'line_width', defaultValue: 3 })
+  const hideYAxis = useCheckboxField({ field: 'hide_yaxis' })
+  const yaxisLabelFontSize = useNumberField({
+    field: 'yaxis_label_font_size',
+    defaultValue: 12
+  })
+  const yaxisLabelFont = useFontField({ field: 'yaxis_label_font' })
+  const yaxisLabelSpace = useNumberField({
+    field: 'yaxis_label_space',
+    defaultValue: yaxisLabelFontSize * 4
+  })
+  const yaxisLabelColor = useColorField({
+    field: 'yaxis_label_color',
+    defaultColor: '#000000'
+  })
 
   if (!metricConfigured) {
-    return <MissingConfigPlaceholder text={'Please provide a metric'}/>;
+    return <MissingConfigPlaceholder text={'Please provide a metric'} />
   }
 
   if (!values.length) {
-    return <Loading/>
+    return <Loading />
   }
 
   const getTimestamp = (d: TimedMetricValue) => d.timestamp
-  const getValue = (d: TimedMetricValue) => parseFloat(d.metricValue.value.toString())
+  const getValue = (d: TimedMetricValue) =>
+    parseFloat(d.metricValue.value.toString())
 
   const domain = extent(values, getValue)
 
@@ -66,9 +95,12 @@ const LineChart: FunctionComponent = () => {
   domain[0] = Math.floor(domain[0])
   domain[1] = Math.ceil(domain[1])
 
-  const timeScale = scaleLinear().range([0, width]).domain(extent(values, getTimestamp))
-  const valueScale = scaleLinear().range([hideYAxis ? height : height - yaxisLabelFontSize * 2, 0]).domain(domain)
-
+  const timeScale = scaleLinear()
+    .range([0, width])
+    .domain(extent(values, getTimestamp))
+  const valueScale = scaleLinear()
+    .range([hideYAxis ? height : height - yaxisLabelFontSize * 2, 0])
+    .domain(domain)
 
   return (
     <svg width={width} height={height}>
@@ -88,7 +120,7 @@ const LineChart: FunctionComponent = () => {
         {!hideYAxis && (
           <Axis.AxisLeft
             tickStroke='transparent'
-            tickComponent={({formattedValue, ...props}) => (
+            tickComponent={({ formattedValue, ...props }) => (
               <text
                 {...props}
                 fill={yaxisLabelColor.toRgbaCss()}
@@ -109,4 +141,4 @@ const LineChart: FunctionComponent = () => {
   )
 }
 
-export default LineChart
+export default LineChart;

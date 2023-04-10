@@ -9,6 +9,11 @@
       "type": "metric"
     },
     {
+      "name": "history_count",
+      "label": "History count",
+      "type": "number"
+    },
+    {
       "label": "Y Axis",
       "type": "separator"
     },
