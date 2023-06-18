@@ -10,7 +10,8 @@ import {
   useMetricFieldValueType,
   useNumberField,
   useSelectField,
-  useStringField
+  useStringField,
+  useConvertDateToTimezone
 } from '@modbros/dashboard-sdk'
 import styled from 'styled-components'
 import { isEmpty, isNumber } from 'lodash-es'
@@ -60,6 +61,8 @@ const Value: FunctionComponent<ChannelValueProp> = (props) => {
   const { channelValue } = props
   const { value } = channelValue
 
+  const convertDate = useConvertDateToTimezone()
+
   const precision = useNumberField({ field: 'precision', defaultValue: 0 })
   const valueFont = useFontField({ field: 'value_font' })
   const valueFontSize = useNumberField({ field: 'value_font_size' })
@@ -86,7 +89,7 @@ const Value: FunctionComponent<ChannelValueProp> = (props) => {
   }
 
   if (valueType === 'date') {
-    const dateValue = new Date(v)
+    const dateValue = convertDate(new Date(v))
     const time =
       timeFormat === '12h'
         ? format12h(dateValue, hideSeconds)

@@ -1,3 +1,9 @@
+# 0.0.7
+
+## Changes
+
+- Single values now convert dates to the timezone of the app if possible.
+
 # 0.0.6
 
 ## Changes
