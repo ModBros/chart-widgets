@@ -5,17 +5,16 @@ import {
   useCheckboxField,
   useColorField,
   useFontField,
+  useFormattedMetricValue,
   useIsMetricFieldConfigured,
   useMetricField,
-  useMetricFieldValueType,
   useNumberField,
   useSelectField,
-  useStringField,
-  useConvertDateToTimezone
+  useStringField
 } from '@modbros/dashboard-sdk'
 import styled from 'styled-components'
-import { isEmpty, isNumber } from 'lodash-es'
-import { ChannelValue } from '@modbros/dashboard-core'
+import { isEmpty } from 'lodash-es'
+import { ChannelValue, createMetricResourcePath } from '@modbros/dashboard-core'
 import { format12h, format24h, formatDate } from '../../utils/metricUtils'
 
 const Container = styled.div`
@@ -59,20 +58,17 @@ const Unit: FunctionComponent<ChannelValueProp> = (props) => {
 
 const Value: FunctionComponent<ChannelValueProp> = (props) => {
   const { channelValue } = props
-  const { value } = channelValue
-
-  const convertDate = useConvertDateToTimezone()
 
   const precision = useNumberField({ field: 'precision', defaultValue: 0 })
   const valueFont = useFontField({ field: 'value_font' })
   const valueFontSize = useNumberField({ field: 'value_font_size' })
   const valueFontColor = useColorField({ field: 'value_font_color' })
-  const timeFormat = useSelectField({
+  const selectedTimeFormat = useSelectField({
     field: 'time_format',
     defaultValue: '24h'
   })
   const hideSeconds = useCheckboxField({ field: 'hide_seconds' })
-  const dateFormat = useSelectField({
+  const selectedDateFormat = useSelectField({
     field: 'date_format',
     defaultValue: 'Y-M-D'
   })
@@ -80,24 +76,29 @@ const Value: FunctionComponent<ChannelValueProp> = (props) => {
     field: 'date_separator',
     defaultValue: '-'
   })
-  const valueType = useMetricFieldValueType(channelValue)
 
-  let v = value.value
+  const dateFormat = formatDate(selectedDateFormat, dateSeparator)
+  const timeFormat =
+    selectedTimeFormat === '12h'
+      ? format12h(hideSeconds)
+      : format24h(hideSeconds)
 
-  if (isNumber(v) && isNumber(precision)) {
-    v = parseFloat(v.toString()).toFixed(Math.max(0, Math.round(precision)))
-  }
-
-  if (valueType === 'date') {
-    const dateValue = convertDate(new Date(v))
-    const time =
-      timeFormat === '12h'
-        ? format12h(dateValue, hideSeconds)
-        : format24h(dateValue, hideSeconds)
-    const date = formatDate(dateValue, dateFormat, dateSeparator)
-
-    v = `${date} ${time}`
-  }
+  const formattedValue = useFormattedMetricValue(channelValue, {
+    precision,
+    valueBasedPrecision: true,
+    timeFormat,
+    dateFormat,
+    dateTimeFormat: `${dateFormat} ${timeFormat}`,
+    formatResource(resourceId) {
+      return (
+        <img
+          alt={resourceId}
+          style={{ height: valueFontSize ?? '1em', width: 'auto' }}
+          src={createMetricResourcePath(resourceId)}
+        />
+      )
+    }
+  })
 
   return (
     <strong
@@ -107,7 +108,7 @@ const Value: FunctionComponent<ChannelValueProp> = (props) => {
         color: valueFontColor.toRgbaCss()
       }}
     >
-      <span>{v}</span>
+      <span>{formattedValue.value}</span>
 
       <Unit channelValue={channelValue} />
     </strong>
