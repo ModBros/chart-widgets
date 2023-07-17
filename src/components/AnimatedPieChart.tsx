@@ -1,16 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { Group, Shape } from '@visx/visx'
-import {
-  Color,
-  useColorField,
-  useItemSize,
-  useMetricField,
-  useNumberField
-} from '@modbros/dashboard-sdk'
-import {
-  PieProps as VisxPieProps,
-  ProvidedProps
-} from '@visx/shape/lib/shapes/Pie'
+import { Color } from '@modbros/dashboard-sdk'
+import { ProvidedProps } from '@visx/shape/lib/shapes/Pie'
 import { animated, to, useTransition } from 'react-spring'
 import { ChannelValue } from '@modbros/dashboard-core'
 

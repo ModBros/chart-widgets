@@ -1,14 +1,13 @@
 import React, { FunctionComponent, useCallback } from 'react'
 import { Shape } from '@visx/visx'
 import {
-  useColorField,
-  useMemoizedMetricField,
-  useNumberField,
-  MissingConfigPlaceholder,
+  Color,
   Loading,
+  MissingConfigPlaceholder,
+  useColorField,
   useIsMetricFieldConfigured,
-  useCheckboxField,
-  Color
+  useMemoizedMetricField,
+  useNumberField
 } from '@modbros/dashboard-sdk'
 import { getMetricMaxValue } from '../../utils/metricUtils'
 import { animated, useSpring } from 'react-spring'

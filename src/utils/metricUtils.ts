@@ -14,10 +14,6 @@ export function getMetricMaxValue(
   )
 }
 
-function formatDateTimePart(part: string | number): string {
-  return part.toString().padStart(2, '0')
-}
-
 export function format24h(hideSeconds: boolean): string {
   return hideSeconds ? 'HH:MM' : 'HH:MM:ss'
 }

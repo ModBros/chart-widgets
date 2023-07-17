@@ -1,7 +1,7 @@
-import React, {FunctionComponent} from 'react'
-import {AnimatedPieChart} from '../../components/AnimatedPieChart'
-import {Shape} from '@visx/visx'
-import {useDefaultPieFields} from '../../utils/useDefaultPieFields'
+import React, { FunctionComponent } from 'react'
+import { AnimatedPieChart } from '../../components/AnimatedPieChart'
+import { Shape } from '@visx/visx'
+import { useDefaultPieFields } from '../../utils/useDefaultPieFields'
 import {
   Loading,
   MissingConfigPlaceholder,
@@ -29,9 +29,9 @@ const GaugeChart: FunctionComponent = () => {
     value
   } = useDefaultPieFields('#00ff1e')
 
-  const metricConfigured = useIsMetricFieldConfigured({field: 'metric'})
+  const metricConfigured = useIsMetricFieldConfigured({ field: 'metric' })
 
-  const hideThresholds = useCheckboxField({field: 'hide_thresholds'})
+  const hideThresholds = useCheckboxField({ field: 'hide_thresholds' })
   const warningThreshold = useNumberField({
     field: 'warning_threshold',
     defaultValue: 50
@@ -49,12 +49,12 @@ const GaugeChart: FunctionComponent = () => {
     defaultColor: '#ff0000'
   })
 
-  if(!metricConfigured) {
-    return <MissingConfigPlaceholder text={'Please provide a metric'}/>;
+  if (!metricConfigured) {
+    return <MissingConfigPlaceholder text={'Please provide a metric'} />
   }
 
   if (!channelValue?.value) {
-    return <Loading/>
+    return <Loading />
   }
 
   const angleFactor = 1.5

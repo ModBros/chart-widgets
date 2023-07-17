@@ -1,7 +1,11 @@
-import React, {FunctionComponent} from 'react'
-import {AnimatedPieChart} from '../../components/AnimatedPieChart'
-import {useDefaultPieFields} from '../../utils/useDefaultPieFields'
-import {Loading, MissingConfigPlaceholder, useIsMetricFieldConfigured} from "@modbros/dashboard-sdk";
+import React, { FunctionComponent } from 'react'
+import { AnimatedPieChart } from '../../components/AnimatedPieChart'
+import { useDefaultPieFields } from '../../utils/useDefaultPieFields'
+import {
+  Loading,
+  MissingConfigPlaceholder,
+  useIsMetricFieldConfigured
+} from '@modbros/dashboard-sdk'
 
 const DonutChart: FunctionComponent = () => {
   const {
@@ -17,14 +21,14 @@ const DonutChart: FunctionComponent = () => {
     value
   } = useDefaultPieFields()
 
-  const metricConfigured = useIsMetricFieldConfigured({field: 'metric'})
+  const metricConfigured = useIsMetricFieldConfigured({ field: 'metric' })
 
   if (!metricConfigured) {
-    return <MissingConfigPlaceholder text={'Please provide a metric'}/>;
+    return <MissingConfigPlaceholder text={'Please provide a metric'} />
   }
 
   if (!channelValue?.value) {
-    return <Loading/>
+    return <Loading />
   }
 
   return (

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef } from 'react'
+import React, { FunctionComponent } from 'react'
 import {
   Loading,
   MissingConfigPlaceholder,
@@ -141,4 +141,4 @@ const LineChart: FunctionComponent = () => {
   )
 }
 
-export default LineChart;
+export default LineChart
