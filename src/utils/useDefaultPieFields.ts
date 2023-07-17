@@ -23,7 +23,7 @@ export function useDefaultPieFields(defaultColor: string = "#000000") {
   const maxValue = useNumberField({ field: "max" });
 
   const memo = useCallback((channelValue: ChannelValue) => {
-    return parseFloat(channelValue.value?.value?.toString()).toFixed(0);
+    return Math.round(parseFloat(channelValue.value?.value?.toString()));
   }, []);
 
   const { value, channelValue } = useMemoizedMetricField({ field: "metric", memo });
