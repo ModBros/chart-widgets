@@ -1,31 +1,34 @@
 import {
   useColorField,
   useItemSize,
-  useMetricField,
+  useMemoizedMetricField,
   useNumberField
-} from '@modbros/dashboard-sdk'
-import {getMetricMaxValue} from "./metricUtils";
+} from "@modbros/dashboard-sdk";
+import { getMetricMaxValue } from "./metricUtils";
+import { useCallback } from "react";
+import { ChannelValue } from "@modbros/dashboard-core";
 
-export function useDefaultPieFields(defaultColor: string = '#000000') {
-  const { width, height } = useItemSize()
+export function useDefaultPieFields(defaultColor: string = "#000000") {
+  const { width, height } = useItemSize();
   const thickness = useNumberField({
-    field: 'thickness',
+    field: "thickness",
     defaultValue: 15
-  })
+  });
   const cornerRadius = useNumberField({
-    field: 'corner_radius',
+    field: "corner_radius",
     defaultValue: 0
-  })
-  const channelValue = useMetricField({ field: 'metric' })
-  const color = useColorField({ field: 'color', defaultColor })
-  const backColor = useColorField({ field: 'back_color' })
-  const maxValue = useNumberField({ field: 'max' })
+  });
+  const color = useColorField({ field: "color", defaultColor });
+  const backColor = useColorField({ field: "back_color" });
+  const maxValue = useNumberField({ field: "max" });
 
-  const metricValue = channelValue?.value
+  const memo = useCallback((channelValue: ChannelValue) => {
+    return parseFloat(channelValue.value?.value?.toString()).toFixed(0);
+  }, []);
 
-  const diameter = Math.min(width, height)
-  const radius = diameter / 2
-  const value = parseFloat(metricValue?.value?.toString())
+  const { value, channelValue } = useMemoizedMetricField({ field: "metric", memo });
+  const diameter = Math.min(width, height);
+  const radius = diameter / 2;
   const max = getMetricMaxValue(channelValue, maxValue);
 
   return {
@@ -39,5 +42,5 @@ export function useDefaultPieFields(defaultColor: string = '#000000') {
     max,
     radius,
     value
-  }
+  };
 }

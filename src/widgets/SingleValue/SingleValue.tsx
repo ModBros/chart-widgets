@@ -1,20 +1,24 @@
-import React, { CSSProperties, FunctionComponent } from 'react'
+import React, { CSSProperties, FunctionComponent, useCallback } from 'react'
 import {
   Loading,
   MissingConfigPlaceholder,
   useCheckboxField,
   useColorField,
   useFontField,
-  useFormattedMetricValue,
+  useFormatMetricValue,
   useIsMetricFieldConfigured,
-  useMetricField,
+  useMemoizedMetricField,
   useNumberField,
   useSelectField,
   useStringField
 } from '@modbros/dashboard-sdk'
 import styled from 'styled-components'
 import { isEmpty } from 'lodash-es'
-import { ChannelValue, createMetricResourcePath } from '@modbros/dashboard-core'
+import {
+  ChannelValue,
+  createMetricResourcePath,
+  FormattedMetricValue
+} from '@modbros/dashboard-core'
 import { format12h, format24h, formatDate } from '../../utils/metricUtils'
 
 const Container = styled.div`
@@ -30,9 +34,8 @@ interface ChannelValueProp {
   channelValue: ChannelValue
 }
 
-const Unit: FunctionComponent<ChannelValueProp> = (props) => {
-  const { channelValue } = props
-  const { unit } = channelValue
+const Unit: FunctionComponent<{ unit: string }> = (props) => {
+  const { unit } = props
 
   const smallUnit = useCheckboxField({ field: 'small_unit' })
   const hideUnit = useCheckboxField({ field: 'hide_unit' })
@@ -48,26 +51,20 @@ const Unit: FunctionComponent<ChannelValueProp> = (props) => {
           fontSize: '0.5em'
         }}
       >
-        {unit?.abbreviation}
+        {unit}
       </small>
     )
   }
 
-  return <span>{unit?.abbreviation}</span>
+  return <span>{unit}</span>
 }
 
-const Value: FunctionComponent<ChannelValueProp> = (props) => {
-  const { channelValue } = props
-
+function useFormatValue() {
   const precision = useNumberField({ field: 'precision', defaultValue: 0 })
-  const valueFont = useFontField({ field: 'value_font' })
-  const valueFontSize = useNumberField({ field: 'value_font_size' })
-  const valueFontColor = useColorField({ field: 'value_font_color' })
   const selectedTimeFormat = useSelectField({
     field: 'time_format',
     defaultValue: '24h'
   })
-  const hideSeconds = useCheckboxField({ field: 'hide_seconds' })
   const selectedDateFormat = useSelectField({
     field: 'date_format',
     defaultValue: 'Y-M-D'
@@ -76,29 +73,45 @@ const Value: FunctionComponent<ChannelValueProp> = (props) => {
     field: 'date_separator',
     defaultValue: '-'
   })
-
+  const hideSeconds = useCheckboxField({ field: 'hide_seconds' })
   const dateFormat = formatDate(selectedDateFormat, dateSeparator)
   const timeFormat =
     selectedTimeFormat === '12h'
       ? format12h(hideSeconds)
       : format24h(hideSeconds)
+  const valueFontSize = useNumberField({ field: 'value_font_size' })
 
-  const formattedValue = useFormattedMetricValue(channelValue, {
-    precision,
-    valueBasedPrecision: true,
-    timeFormat,
-    dateFormat,
-    dateTimeFormat: `${dateFormat} ${timeFormat}`,
-    formatResource(resourceId) {
-      return (
-        <img
-          alt={resourceId}
-          style={{ height: valueFontSize ?? '1em', width: 'auto' }}
-          src={createMetricResourcePath(resourceId)}
-        />
-      )
-    }
-  })
+  const format = useFormatMetricValue()
+
+  return useCallback(
+    (channelValue: ChannelValue) => {
+      return format(channelValue, {
+        precision,
+        valueBasedPrecision: true,
+        timeFormat,
+        dateFormat,
+        dateTimeFormat: `${dateFormat} ${timeFormat}`,
+        formatResource(resourceId) {
+          return (
+            <img
+              alt={resourceId}
+              style={{ height: valueFontSize ?? '1em', width: 'auto' }}
+              src={createMetricResourcePath(resourceId)}
+            />
+          )
+        }
+      })
+    },
+    [format, precision, timeFormat, dateFormat]
+  )
+}
+
+const Value: FunctionComponent<{ value: FormattedMetricValue }> = (props) => {
+  const { value } = props
+
+  const valueFont = useFontField({ field: 'value_font' })
+  const valueFontSize = useNumberField({ field: 'value_font_size' })
+  const valueFontColor = useColorField({ field: 'value_font_color' })
 
   return (
     <strong
@@ -108,9 +121,9 @@ const Value: FunctionComponent<ChannelValueProp> = (props) => {
         color: valueFontColor.toRgbaCss()
       }}
     >
-      <span>{formattedValue.value}</span>
+      <span>{value.value}</span>
 
-      <Unit channelValue={channelValue} />
+      <Unit unit={value.unit} />
     </strong>
   )
 }
@@ -130,7 +143,6 @@ const Label: FunctionComponent<ChannelValueProp> = (props) => {
 }
 
 const SingleValue: FunctionComponent = () => {
-  const channelValue = useMetricField({ field: 'metric' })
   const verticalAlign = useSelectField({
     field: 'vertical_align',
     defaultValue: 'flex-start'
@@ -148,6 +160,13 @@ const SingleValue: FunctionComponent = () => {
   const alignment = useSelectField({ field: 'alignment' })
   const metricConfigured = useIsMetricFieldConfigured({ field: 'metric' })
 
+  const memo = useFormatValue()
+
+  const { value: memoizedValue, channelValue } = useMemoizedMetricField({
+    field: 'metric',
+    memo
+  })
+
   if (!metricConfigured) {
     return <MissingConfigPlaceholder text={'Please provide a metric'} />
   }
@@ -157,7 +176,7 @@ const SingleValue: FunctionComponent = () => {
   }
 
   const label = <Label channelValue={channelValue} />
-  const value = <Value channelValue={channelValue} />
+  const value = <Value value={memoizedValue} />
 
   let first = label
   let second = value

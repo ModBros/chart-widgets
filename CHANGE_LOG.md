@@ -1,3 +1,9 @@
+# 0.0.9
+
+## Changes
+
+- Improved performance by using memoized values and only re-render if necessary.
+
 # 0.0.8
 
 ## Changes
