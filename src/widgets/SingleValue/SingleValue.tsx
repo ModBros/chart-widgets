@@ -8,6 +8,7 @@ import {
   useFormatMetricValue,
   useIsMetricFieldConfigured,
   useMemoizedMetricField,
+  useMetricFieldValueType,
   useNumberField,
   useSelectField,
   useStringField
@@ -19,7 +20,13 @@ import {
   createMetricResourcePath,
   FormattedMetricValue
 } from '@modbros/dashboard-core'
-import { format12h, format24h, formatDate } from '../../utils/metricUtils'
+import {
+  format12h,
+  format24h,
+  formatDate,
+  getMetricMaxValue,
+  useThresholds
+} from '../../utils/metricUtils'
 
 const Container = styled.div`
   display: flex;
@@ -106,19 +113,30 @@ function useFormatValue() {
   )
 }
 
-const Value: FunctionComponent<{ value: FormattedMetricValue }> = (props) => {
-  const { value } = props
+const Value: FunctionComponent<
+  ChannelValueProp & { value: FormattedMetricValue }
+> = (props) => {
+  const { value, channelValue } = props
 
   const valueFont = useFontField({ field: 'value_font' })
   const valueFontSize = useNumberField({ field: 'value_font_size' })
   const valueFontColor = useColorField({ field: 'value_font_color' })
+  const maxValue = useNumberField({ field: 'max' })
+  const max = getMetricMaxValue(channelValue, maxValue)
+  const { getColor } = useThresholds(valueFontColor, max)
+
+  let color = valueFontColor
+
+  if (channelValue.type.valueType === 'Numeric') {
+    color = getColor(parseFloat(channelValue.value.value?.toString() ?? '0'))
+  }
 
   return (
     <strong
       style={{
         fontFamily: valueFont,
         fontSize: valueFontSize ? `${valueFontSize}px` : undefined,
-        color: valueFontColor.toRgbaCss()
+        color: color.toRgbaCss()
       }}
     >
       <span>{value.value}</span>
@@ -176,7 +194,7 @@ const SingleValue: FunctionComponent = () => {
   }
 
   const label = <Label channelValue={channelValue} />
-  const value = <Value value={memoizedValue} />
+  const value = <Value channelValue={channelValue} value={memoizedValue} />
 
   let first = label
   let second = value

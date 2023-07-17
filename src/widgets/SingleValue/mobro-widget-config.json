@@ -77,7 +77,7 @@
       "type": "checkbox"
     },
     {
-      "label": "Text",
+      "label": "Label",
       "type": "separator"
     },
     {
@@ -117,14 +117,14 @@
       "min": 0
     },
     {
+      "name": "max",
+      "label": "Max Value",
+      "type": "number"
+    },
+    {
       "name": "value_font",
       "label": "Font",
       "type": "font"
-    },
-    {
-      "name": "value_font_color",
-      "label": "Font Color",
-      "type": "color"
     },
     {
       "name": "value_font_size",
@@ -141,6 +141,45 @@
       "name": "hide_unit",
       "label": "Hide Unit",
       "type": "checkbox"
+    },
+    {
+      "label": "Value (Colors & Thresholds)",
+      "type": "separator"
+    },
+    {
+      "name": "value_font_color",
+      "label": "Font Color",
+      "type": "color"
+    },
+    {
+      "label": "Warning",
+      "type": "separator"
+    },
+    {
+      "name": "warning_threshold",
+      "label": "Threshold (%)",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "name": "warning_color",
+      "label": "Color",
+      "type": "color"
+    },
+    {
+      "label": "Critical",
+      "type": "separator"
+    },
+    {
+      "name": "critical_threshold",
+      "label": "Threshold (%)",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "name": "critical_color",
+      "label": "Color",
+      "type": "color"
     },
     {
       "label": "Value (Date)",

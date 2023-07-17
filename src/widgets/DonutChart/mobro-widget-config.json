@@ -18,15 +18,6 @@
       "type": "number"
     },
     {
-      "name": "color",
-      "label": "Color",
-      "type": "color"
-    },
-    {
-      "name": "back_color",
-      "label": "Back Color",
-      "type": "color"
-    }, {
       "name": "thickness",
       "label": "Thickness",
       "type": "number",
@@ -37,6 +28,50 @@
       "label": "Corner Radius",
       "type": "number",
       "min": 0
+    },
+    {
+      "label": "Colors & Thresholds",
+      "type": "separator"
+    },
+    {
+      "name": "color",
+      "label": "Color",
+      "type": "color"
+    },
+    {
+      "name": "back_color",
+      "label": "Back Color",
+      "type": "color"
+    },
+    {
+      "label": "Warning",
+      "type": "separator"
+    },
+    {
+      "name": "warning_threshold",
+      "label": "Threshold (%)",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "name": "warning_color",
+      "label": "Color",
+      "type": "color"
+    },
+    {
+      "label": "Critical",
+      "type": "separator"
+    },
+    {
+      "name": "critical_threshold",
+      "label": "Threshold (%)",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "name": "critical_color",
+      "label": "Color",
+      "type": "color"
     }
   ]
 }

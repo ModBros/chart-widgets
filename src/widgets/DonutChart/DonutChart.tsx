@@ -6,6 +6,7 @@ import {
   MissingConfigPlaceholder,
   useIsMetricFieldConfigured
 } from '@modbros/dashboard-sdk'
+import { useThresholds } from '../../utils/metricUtils'
 
 const DonutChart: FunctionComponent = () => {
   const {
@@ -20,7 +21,7 @@ const DonutChart: FunctionComponent = () => {
     radius,
     value
   } = useDefaultPieFields()
-
+  const { getColor } = useThresholds(color, max)
   const metricConfigured = useIsMetricFieldConfigured({ field: 'metric' })
 
   if (!metricConfigured) {
@@ -35,7 +36,7 @@ const DonutChart: FunctionComponent = () => {
     <AnimatedPieChart
       thickness={thickness}
       channelValue={channelValue}
-      color={color}
+      color={getColor(value)}
       backColor={backColor}
       cornerRadius={cornerRadius}
       max={max}

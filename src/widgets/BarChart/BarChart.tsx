@@ -9,7 +9,7 @@ import {
   useMemoizedMetricField,
   useNumberField
 } from '@modbros/dashboard-sdk'
-import { getMetricMaxValue } from '../../utils/metricUtils'
+import { getMetricMaxValue, useThresholds } from '../../utils/metricUtils'
 import { animated, useSpring } from 'react-spring'
 import { ChannelValue } from '@modbros/dashboard-core'
 
@@ -46,11 +46,12 @@ const BarChart: FunctionComponent = () => {
     field: 'back_color',
     defaultColor: '#ffffff'
   })
-  const maxValue = useNumberField({ field: 'max' })
+
   const cornerRadius = useNumberField({
     field: 'corner_radius',
     defaultValue: 0
   })
+  const maxValue = useNumberField({ field: 'max' })
 
   const memo = useCallback((channelValue: ChannelValue) => {
     return Math.round(parseFloat(channelValue.value?.value?.toString()))
@@ -61,6 +62,9 @@ const BarChart: FunctionComponent = () => {
     memo
   })
 
+  const max = getMetricMaxValue(channelValue, maxValue)
+  const { getColor } = useThresholds(color, max)
+
   if (!metricConfigured) {
     return <MissingConfigPlaceholder text={'Please provide a metric'} />
   }
@@ -69,7 +73,6 @@ const BarChart: FunctionComponent = () => {
     return <Loading />
   }
 
-  const max = getMetricMaxValue(channelValue, maxValue)
   const width = max !== 0 ? (value * 100) / max : 0
 
   return (
@@ -83,7 +86,11 @@ const BarChart: FunctionComponent = () => {
         width='100%'
         fill={backColor.toRgbaCss()}
       />
-      <AnimatedBar width={width} color={color} cornerRadius={cornerRadius} />
+      <AnimatedBar
+        width={width}
+        color={getColor(value)}
+        cornerRadius={cornerRadius}
+      />
     </svg>
   )
 }

@@ -1,4 +1,6 @@
 import { ChannelValue } from '@modbros/dashboard-core'
+import { Color, useColorField, useNumberField } from '@modbros/dashboard-sdk'
+import { useCallback } from 'react'
 
 export function getMetricMaxValue(
   channelValue: ChannelValue,
@@ -28,4 +30,50 @@ export function formatDate(format: string, separator: string): string {
     .replace('M', 'mm')
     .replace('D', 'dd')
     .replaceAll('-', separator)
+}
+
+export function thresholdValue(max: number, percentage: number): number {
+  return (percentage * max) / 100
+}
+
+export function useThresholds(defaultColor: Color, max: number, useDefaultThresholds = false) {
+  const warningThreshold = useNumberField({
+    field: 'warning_threshold',
+    defaultValue: 50
+  })
+  const warningColor = useColorField({
+    field: 'warning_color',
+    defaultColor: useDefaultThresholds ? '#ffff1e' : undefined
+  })
+  const criticalThreshold = useNumberField({
+    field: 'critical_threshold',
+    defaultValue: 90
+  })
+  const criticalColor = useColorField({
+    field: 'critical_color',
+    defaultColor: useDefaultThresholds ? '#ff0000' : undefined
+  })
+
+  const warningValue = thresholdValue(max, warningThreshold)
+  const criticalValue = thresholdValue(max, criticalThreshold)
+
+  return {
+    warningValue,
+    warningColor,
+    criticalValue,
+    criticalColor,
+    getColor(value: number) {
+      let color = defaultColor
+
+      if (value >= warningValue && value < criticalValue) {
+        color = warningColor
+      }
+
+      if (value >= criticalValue) {
+        color = criticalColor
+      }
+
+      return color
+    }
+  }
 }

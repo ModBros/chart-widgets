@@ -2,6 +2,7 @@
 
 ## Changes
 
+- Added thresholds for gauge, donut, bar and single value charts.
 - Improved performance by using memoized values and only re-render if necessary.
 
 # 0.0.8

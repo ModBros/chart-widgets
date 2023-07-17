@@ -6,14 +6,9 @@ import {
   Loading,
   MissingConfigPlaceholder,
   useCheckboxField,
-  useColorField,
-  useIsMetricFieldConfigured,
-  useNumberField
+  useIsMetricFieldConfigured
 } from '@modbros/dashboard-sdk'
-
-function thresholdValue(max: number, percentage: number): number {
-  return (percentage * max) / 100
-}
+import { useThresholds } from '../../utils/metricUtils'
 
 const GaugeChart: FunctionComponent = () => {
   const {
@@ -29,25 +24,11 @@ const GaugeChart: FunctionComponent = () => {
     value
   } = useDefaultPieFields('#00ff1e')
 
-  const metricConfigured = useIsMetricFieldConfigured({ field: 'metric' })
-
   const hideThresholds = useCheckboxField({ field: 'hide_thresholds' })
-  const warningThreshold = useNumberField({
-    field: 'warning_threshold',
-    defaultValue: 50
-  })
-  const warningColor = useColorField({
-    field: 'warning_color',
-    defaultColor: '#ffff1e'
-  })
-  const criticalThreshold = useNumberField({
-    field: 'critical_threshold',
-    defaultValue: 90
-  })
-  const criticalColor = useColorField({
-    field: 'critical_color',
-    defaultColor: '#ff0000'
-  })
+  const { warningValue, warningColor, criticalValue, criticalColor, getColor } =
+    useThresholds(color, max, true)
+
+  const metricConfigured = useIsMetricFieldConfigured({ field: 'metric' })
 
   if (!metricConfigured) {
     return <MissingConfigPlaceholder text={'Please provide a metric'} />
@@ -62,24 +43,11 @@ const GaugeChart: FunctionComponent = () => {
   const startAngle = -endAngle
   const thresholdThickness = !hideThresholds ? thickness / 3 : 0
 
-  const warningValue = thresholdValue(max, warningThreshold)
-  const criticalValue = thresholdValue(max, criticalThreshold)
-
-  let currentColor = color
-
-  if (value >= warningValue && value < criticalValue) {
-    currentColor = warningColor
-  }
-
-  if (value >= criticalValue) {
-    currentColor = criticalColor
-  }
-
   return (
     <AnimatedPieChart
       thickness={thickness}
       channelValue={channelValue}
-      color={currentColor}
+      color={getColor(value)}
       backColor={backColor}
       cornerRadius={cornerRadius}
       max={max}
