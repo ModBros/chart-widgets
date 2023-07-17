@@ -1,3 +1,9 @@
+# 0.0.8
+
+## Changes
+
+- Single values is now able to display resource metrics.
+
 # 0.0.7
 
 ## Changes
