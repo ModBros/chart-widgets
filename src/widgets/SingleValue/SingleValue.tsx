@@ -1,4 +1,4 @@
-import React, { CSSProperties, FunctionComponent, useCallback } from 'react'
+import React, {CSSProperties, FunctionComponent, useCallback} from 'react'
 import {
   Loading,
   MissingConfigPlaceholder,
@@ -8,25 +8,14 @@ import {
   useFormatMetricValue,
   useIsMetricFieldConfigured,
   useMemoizedMetricField,
-  useMetricFieldValueType,
   useNumberField,
   useSelectField,
   useStringField
 } from '@modbros/dashboard-sdk'
 import styled from 'styled-components'
-import { isEmpty } from 'lodash-es'
-import {
-  ChannelValue,
-  createMetricResourcePath,
-  FormattedMetricValue
-} from '@modbros/dashboard-core'
-import {
-  format12h,
-  format24h,
-  formatDate,
-  getMetricMaxValue,
-  useThresholds
-} from '../../utils/metricUtils'
+import {isEmpty} from 'lodash-es'
+import {ChannelValue, createMetricResourcePath, FormattedMetricValue} from '@modbros/dashboard-core'
+import {format12h, format24h, formatDate, getMetricMaxValue, useThresholds} from '../../utils/metricUtils'
 
 const Container = styled.div`
   display: flex;
@@ -42,10 +31,10 @@ interface ChannelValueProp {
 }
 
 const Unit: FunctionComponent<{ unit: string }> = (props) => {
-  const { unit } = props
+  const {unit} = props
 
-  const smallUnit = useCheckboxField({ field: 'small_unit' })
-  const hideUnit = useCheckboxField({ field: 'hide_unit' })
+  const smallUnit = useCheckboxField({field: 'small_unit'})
+  const hideUnit = useCheckboxField({field: 'hide_unit'})
 
   if (hideUnit) {
     return null
@@ -67,7 +56,7 @@ const Unit: FunctionComponent<{ unit: string }> = (props) => {
 }
 
 function useFormatValue() {
-  const precision = useNumberField({ field: 'precision', defaultValue: 0 })
+  const precision = useNumberField({field: 'precision', defaultValue: 0})
   const selectedTimeFormat = useSelectField({
     field: 'time_format',
     defaultValue: '24h'
@@ -80,13 +69,13 @@ function useFormatValue() {
     field: 'date_separator',
     defaultValue: '-'
   })
-  const hideSeconds = useCheckboxField({ field: 'hide_seconds' })
+  const hideSeconds = useCheckboxField({field: 'hide_seconds'})
   const dateFormat = formatDate(selectedDateFormat, dateSeparator)
   const timeFormat =
     selectedTimeFormat === '12h'
       ? format12h(hideSeconds)
       : format24h(hideSeconds)
-  const valueFontSize = useNumberField({ field: 'value_font_size' })
+  const valueFontSize = useNumberField({field: 'value_font_size'})
 
   const format = useFormatMetricValue()
 
@@ -102,7 +91,7 @@ function useFormatValue() {
           return (
             <img
               alt={resourceId}
-              style={{ height: valueFontSize ?? '1em', width: 'auto' }}
+              style={{height: valueFontSize ?? '1em', width: 'auto'}}
               src={createMetricResourcePath(resourceId)}
             />
           )
@@ -116,14 +105,14 @@ function useFormatValue() {
 const Value: FunctionComponent<
   ChannelValueProp & { value: FormattedMetricValue }
 > = (props) => {
-  const { value, channelValue } = props
+  const {value, channelValue} = props
 
-  const valueFont = useFontField({ field: 'value_font' })
-  const valueFontSize = useNumberField({ field: 'value_font_size' })
-  const valueFontColor = useColorField({ field: 'value_font_color' })
-  const maxValue = useNumberField({ field: 'max' })
+  const valueFont = useFontField({field: 'value_font'})
+  const valueFontSize = useNumberField({field: 'value_font_size'})
+  const valueFontColor = useColorField({field: 'value_font_color'})
+  const maxValue = useNumberField({field: 'max'})
   const max = getMetricMaxValue(channelValue, maxValue)
-  const { getColor } = useThresholds(valueFontColor, max)
+  const {getColor} = useThresholds(valueFontColor, max)
 
   let color = valueFontColor
 
@@ -141,17 +130,17 @@ const Value: FunctionComponent<
     >
       <span>{value.value}</span>
 
-      <Unit unit={value.unit} />
+      <Unit unit={value.unit}/>
     </strong>
   )
 }
 
 const Label: FunctionComponent<ChannelValueProp> = (props) => {
-  const { channelValue } = props
-  const { metric } = channelValue
+  const {channelValue} = props
+  const {metric} = channelValue
 
-  const hideLabel = useCheckboxField({ field: 'hide_label' })
-  const customLabel = useStringField({ field: 'label' })
+  const hideLabel = useCheckboxField({field: 'hide_label'})
+  const customLabel = useStringField({field: 'label'})
 
   if (hideLabel) {
     return null
@@ -169,32 +158,32 @@ const SingleValue: FunctionComponent = () => {
     field: 'horizontal_align',
     defaultValue: 'flex-start'
   })
-  const hideLabel = useCheckboxField({ field: 'hide_label' })
-  const spaceBetween = useCheckboxField({ field: 'space_between' })
-  const font = useFontField({ field: 'font' })
-  const fontSize = useNumberField({ field: 'font_size' })
-  const fontColor = useColorField({ field: 'font_color' })
-  const gap = useNumberField({ field: 'gap' })
-  const alignment = useSelectField({ field: 'alignment' })
-  const metricConfigured = useIsMetricFieldConfigured({ field: 'metric' })
+  const hideLabel = useCheckboxField({field: 'hide_label'})
+  const spaceBetween = useCheckboxField({field: 'space_between'})
+  const font = useFontField({field: 'font'})
+  const fontSize = useNumberField({field: 'font_size'})
+  const fontColor = useColorField({field: 'font_color'})
+  const gap = useNumberField({field: 'gap'})
+  const alignment = useSelectField({field: 'alignment'})
+  const metricConfigured = useIsMetricFieldConfigured({field: 'metric'})
 
   const memo = useFormatValue()
 
-  const { value: memoizedValue, channelValue } = useMemoizedMetricField({
+  const {value: memoizedValue, channelValue} = useMemoizedMetricField({
     field: 'metric',
     memo
   })
 
   if (!metricConfigured) {
-    return <MissingConfigPlaceholder text={'Please provide a metric'} />
+    return <MissingConfigPlaceholder text={'Please provide a metric'}/>
   }
 
   if (!channelValue?.value) {
-    return <Loading />
+    return <Loading/>
   }
 
-  const label = <Label channelValue={channelValue} />
-  const value = <Value channelValue={channelValue} value={memoizedValue} />
+  const label = <Label channelValue={channelValue}/>
+  const value = <Value channelValue={channelValue} value={memoizedValue}/>
 
   let first = label
   let second = value
