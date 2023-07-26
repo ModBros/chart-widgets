@@ -5,6 +5,10 @@
 - Added thresholds for gauge, donut, bar and single value charts.
 - Improved performance by using memoized values and only re-render if necessary.
 
+## Bugfixes
+
+- Fixed first render for gauge and donut.
+
 # 0.0.8
 
 ## Changes

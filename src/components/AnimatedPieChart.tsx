@@ -31,7 +31,11 @@ const AnimatedArc: FunctionComponent<AnimatedArcProps> = (props) => {
       <g key={key}>
         <animated.path
           d={to([props.startAngle, props.endAngle], (startAngle, endAngle) => {
-            return pie.path({ ...arc, startAngle, endAngle })
+            return pie.path({
+              ...arc,
+              startAngle: startAngle ?? arc.startAngle,
+              endAngle: endAngle ?? arc.endAngle
+            })
           })}
           fill={arc.data.color}
         />
