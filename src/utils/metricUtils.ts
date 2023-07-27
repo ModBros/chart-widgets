@@ -36,10 +36,14 @@ export function thresholdValue(max: number, percentage: number): number {
   return (percentage * max) / 100
 }
 
-export function useThresholds(defaultColor: Color, max: number, useDefaultThresholds = false) {
+export function useThresholds(
+  defaultColor: Color,
+  max: number,
+  useDefaultThresholds = false
+) {
   const warningThreshold = useNumberField({
     field: 'warning_threshold',
-    defaultValue: 50
+    defaultValue: useDefaultThresholds ? 50 : 0
   })
   const warningColor = useColorField({
     field: 'warning_color',
@@ -47,7 +51,7 @@ export function useThresholds(defaultColor: Color, max: number, useDefaultThresh
   })
   const criticalThreshold = useNumberField({
     field: 'critical_threshold',
-    defaultValue: 90
+    defaultValue: useDefaultThresholds ? 90 : 0
   })
   const criticalColor = useColorField({
     field: 'critical_color',
@@ -65,11 +69,11 @@ export function useThresholds(defaultColor: Color, max: number, useDefaultThresh
     getColor(value: number) {
       let color = defaultColor
 
-      if (value >= warningValue && value < criticalValue) {
+      if (warningValue && warningColor.toRgbaCss() && value >= warningValue) {
         color = warningColor
       }
 
-      if (value >= criticalValue) {
+      if (criticalValue && criticalColor.toRgbaCss() && value >= criticalValue) {
         color = criticalColor
       }
 

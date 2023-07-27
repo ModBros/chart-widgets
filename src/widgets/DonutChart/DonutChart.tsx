@@ -21,7 +21,7 @@ const DonutChart: FunctionComponent = () => {
     radius,
     value
   } = useDefaultPieFields()
-  const { getColor } = useThresholds(color, max)
+  const { getColor } = useThresholds(color, max, false)
   const metricConfigured = useIsMetricFieldConfigured({ field: 'metric' })
 
   if (!metricConfigured) {
