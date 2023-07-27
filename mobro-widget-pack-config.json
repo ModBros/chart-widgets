@@ -1,5 +1,6 @@
 {
   "name": "modbros_charts",
   "displayName": "Charts",
-  "description": "Includes highly customizable base widgets such as textual values, bar/line charts, donuts and gauges."
+  "description": "Includes highly customizable base widgets such as textual values, bar/line charts, donuts and gauges.",
+  "author": "ModBros"
 }
