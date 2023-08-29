@@ -7,8 +7,9 @@ import {
 import { getMetricMaxValue } from './metricUtils'
 import { useCallback } from 'react'
 import { ChannelValue } from '@modbros/dashboard-core'
+import {defaultChartBackColor, defaultChartFrontColor} from './constants'
 
-export function useDefaultPieFields(defaultColor: string = '#000000') {
+export function useDefaultPieFields(defaultColor: string = defaultChartFrontColor) {
   const { width, height } = useItemSize()
   const thickness = useNumberField({
     field: 'thickness',
@@ -19,7 +20,7 @@ export function useDefaultPieFields(defaultColor: string = '#000000') {
     defaultValue: 0
   })
   const color = useColorField({ field: 'color', defaultColor })
-  const backColor = useColorField({ field: 'back_color' })
+  const backColor = useColorField({ field: 'back_color', defaultColor: defaultChartBackColor })
   const maxValue = useNumberField({ field: 'max' })
 
   const memo = useCallback((channelValue: ChannelValue) => {

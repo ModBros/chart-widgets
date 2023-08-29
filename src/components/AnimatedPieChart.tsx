@@ -98,7 +98,7 @@ export const AnimatedPieChart: FunctionComponent<AnimatedPieChartProps> = (
                 key={arc.index}
                 d={pie.path(arc)}
                 fill={
-                  backColor.isEmpty() ? 'transparent' : backColor.toRgbaCss()
+                  backColor.toRgbaCss()
                 }
               />
             ))

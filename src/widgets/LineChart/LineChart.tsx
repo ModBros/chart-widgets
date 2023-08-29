@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, {FunctionComponent} from 'react'
 import {
   Loading,
   MissingConfigPlaceholder,
@@ -10,14 +10,12 @@ import {
   useNumberField,
   useSelectField
 } from '@modbros/dashboard-sdk'
-import { Axis, Curve, Group, Shape } from '@visx/visx'
-import {
-  TimedMetricValue,
-  useMetricFieldHistory
-} from '../../utils/useMetricFieldHistory'
-import { scaleLinear } from 'd3-scale'
-import { extent } from 'd3-array'
-import { isNil } from 'lodash-es'
+import {Axis, Curve, Group, Shape} from '@visx/visx'
+import {TimedMetricValue, useMetricFieldHistory} from '../../utils/useMetricFieldHistory'
+import {scaleLinear} from 'd3-scale'
+import {extent} from 'd3-array'
+import {isNil} from 'lodash-es'
+import {defaultChartFrontColor} from '../../utils/constants'
 
 function getCurve(curve: string) {
   switch (curve) {
@@ -34,33 +32,33 @@ function getCurve(curve: string) {
 }
 
 const LineChart: FunctionComponent = () => {
-  const metricConfigured = useIsMetricFieldConfigured({ field: 'metric' })
-  const { width, height } = useItemSize()
+  const metricConfigured = useIsMetricFieldConfigured({field: 'metric'})
+  const {width, height} = useItemSize()
   const historyCount = useNumberField({
     field: 'history_count',
     defaultValue: 15
   })
-  const { values, unit } = useMetricFieldHistory({
+  const {values, unit} = useMetricFieldHistory({
     field: 'metric',
     limit: historyCount
   })
   const lineColor = useColorField({
     field: 'line_color',
-    defaultColor: '#000000'
+    defaultColor: defaultChartFrontColor
   })
   const lineCurve = useSelectField({
     field: 'line_curve',
     defaultValue: 'linear'
   })
-  const maxValue = useNumberField({ field: 'max' })
-  const minValue = useNumberField({ field: 'min' })
-  const lineWidth = useNumberField({ field: 'line_width', defaultValue: 3 })
-  const hideYAxis = useCheckboxField({ field: 'hide_yaxis' })
+  const maxValue = useNumberField({field: 'max'})
+  const minValue = useNumberField({field: 'min'})
+  const lineWidth = useNumberField({field: 'line_width', defaultValue: 3})
+  const hideYAxis = useCheckboxField({field: 'hide_yaxis'})
   const yaxisLabelFontSize = useNumberField({
     field: 'yaxis_label_font_size',
     defaultValue: 12
   })
-  const yaxisLabelFont = useFontField({ field: 'yaxis_label_font' })
+  const yaxisLabelFont = useFontField({field: 'yaxis_label_font'})
   const yaxisLabelSpace = useNumberField({
     field: 'yaxis_label_space',
     defaultValue: yaxisLabelFontSize * 4
@@ -71,11 +69,11 @@ const LineChart: FunctionComponent = () => {
   })
 
   if (!metricConfigured) {
-    return <MissingConfigPlaceholder text={'Please provide a metric'} />
+    return <MissingConfigPlaceholder text={'Please provide a metric'}/>
   }
 
   if (!values.length) {
-    return <Loading />
+    return <Loading/>
   }
 
   const getTimestamp = (d: TimedMetricValue) => d.timestamp
@@ -119,8 +117,8 @@ const LineChart: FunctionComponent = () => {
         />
         {!hideYAxis && (
           <Axis.AxisLeft
-            tickStroke='transparent'
-            tickComponent={({ formattedValue, ...props }) => (
+            tickStroke="transparent"
+            tickComponent={({formattedValue, ...props}) => (
               <text
                 {...props}
                 fill={yaxisLabelColor.toRgbaCss()}

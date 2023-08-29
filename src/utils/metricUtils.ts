@@ -1,6 +1,6 @@
-import { ChannelValue } from '@modbros/dashboard-core'
-import { Color, useColorField, useNumberField } from '@modbros/dashboard-sdk'
-import { useCallback } from 'react'
+import {ChannelValue} from '@modbros/dashboard-core'
+import {Color, useColorField, useNumberField} from '@modbros/dashboard-sdk'
+import {defaultChartCriticalColor, defaultChartWarningColor} from './constants'
 
 export function getMetricMaxValue(
   channelValue: ChannelValue,
@@ -47,7 +47,7 @@ export function useThresholds(
   })
   const warningColor = useColorField({
     field: 'warning_color',
-    defaultColor: useDefaultThresholds ? '#ffff1e' : undefined
+    defaultColor: useDefaultThresholds ? defaultChartWarningColor : undefined
   })
   const criticalThreshold = useNumberField({
     field: 'critical_threshold',
@@ -55,7 +55,7 @@ export function useThresholds(
   })
   const criticalColor = useColorField({
     field: 'critical_color',
-    defaultColor: useDefaultThresholds ? '#ff0000' : undefined
+    defaultColor: useDefaultThresholds ? defaultChartCriticalColor : undefined
   })
 
   const warningValue = thresholdValue(max, warningThreshold)
