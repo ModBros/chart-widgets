@@ -1,3 +1,11 @@
+
+
+# 0.0.10
+
+## Bugfixes
+
+- Fixed issue with thresholds.
+
 # 0.0.9
 
 ## Changes
