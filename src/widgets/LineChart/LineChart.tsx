@@ -94,7 +94,7 @@ const LineChart: FunctionComponent = () => {
   domain[1] = Math.ceil(domain[1])
 
   const timeScale = scaleLinear()
-    .range([0, width])
+    .range([0, hideYAxis ? width : width - yaxisLabelSpace])
     .domain(extent(values, getTimestamp))
   const valueScale = scaleLinear()
     .range([hideYAxis ? height : height - yaxisLabelFontSize * 2, 0])

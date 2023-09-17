@@ -1,4 +1,8 @@
+# 0.0.11
 
+## Bufixes
+
+- Fixed line charts being cut off on the right.
 
 # 0.0.10
 
