@@ -67,5 +67,41 @@
       "label": "Color",
       "type": "color"
     }
+  ],
+  "layout": [
+    "metric",
+    {
+      "type": "fieldset",
+      "label": "Look and feel",
+      "children": [
+        "max",
+        "corner_radius"
+      ]
+    },{
+      "type": "fieldset",
+      "label": "Colors & Thresholds",
+      "collapsible": true,
+      "collapsed": true,
+      "children": [
+        "color",
+        "back_color",
+        {
+          "type": "fieldset",
+          "label": "Warning",
+          "children": [
+            "warning_threshold",
+            "warning_color"
+          ]
+        },
+        {
+          "type": "fieldset",
+          "label": "Critical",
+          "children": [
+            "critical_threshold",
+            "critical_color"
+          ]
+        }
+      ]
+    }
   ]
 }

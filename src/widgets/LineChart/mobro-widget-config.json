@@ -85,5 +85,35 @@
         }
       ]
     }
+  ],
+  "layout": [
+    "metric",
+    "history_count",
+    {
+      "type": "fieldset",
+      "label": "Y Axis",
+      "collapsible": true,
+      "collapsed": true,
+      "children": [
+        "min",
+        "max",
+        "yaxis_label_color",
+        "yaxis_label_font_size",
+        "yaxis_label_font",
+        "yaxis_label_space",
+        "hide_yaxis"
+      ]
+    },
+    {
+      "type": "fieldset",
+      "label": "Line",
+      "collapsible": true,
+      "collapsed": true,
+      "children": [
+        "line_color",
+        "line_width",
+        "line_curve"
+      ]
+    }
   ]
 }

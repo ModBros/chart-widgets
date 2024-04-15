@@ -243,5 +243,84 @@
         }
       ]
     }
+  ],
+  "layout": [
+    "metric",
+    {
+      "type": "tabs",
+      "children": [
+        {
+          "type": "tab",
+          "label": "Alignment",
+          "children": [
+            "vertical_align",
+            "horizontal_align",
+            "alignment",
+            "gap",
+            "space_between"
+          ]
+        },
+        {
+          "type": "tab",
+          "label": "Label",
+          "children": [
+            "label",
+            "hide_label",
+            "font",
+            "font_color",
+            "font_size"
+          ]
+        },
+        {
+          "type": "tab",
+          "label": "Value",
+          "children": [
+            "precision",
+            "max",
+            "value_font",
+            "value_font_size",
+            "small_unit",
+            "hide_unit",
+            {
+              "type": "fieldset",
+              "label": "Colors & Thresholds",
+              "collapsible": true,
+              "collapsed": true,
+              "children": [
+                "value_font_color",
+                {
+                  "type": "fieldset",
+                  "label": "Warning",
+                  "children": [
+                    "warning_threshold",
+                    "warning_color"
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "label": "Critical",
+                  "children": [
+                    "critical_threshold",
+                    "critical_color"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "fieldset",
+              "label": "Date",
+              "collapsible": true,
+              "collapsed": true,
+              "children": [
+                "time_format",
+                "hide_seconds",
+                "date_format",
+                "date_separator"
+              ]
+            }
+          ]
+        }
+      ]
+    }
   ]
 }
