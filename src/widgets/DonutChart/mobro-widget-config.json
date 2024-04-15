@@ -6,7 +6,14 @@
     {
       "name": "metric",
       "label": "Metric",
-      "type": "metric"
+      "type": "metric",
+      "filters": {
+        "valueTypes": [
+          "Numeric",
+          "Duration",
+          "Currency"
+        ]
+      }
     },
     {
       "label": "Look and feel",
@@ -85,7 +92,8 @@
         "thickness",
         "corner_radius"
       ]
-    }, {
+    },
+    {
       "type": "fieldset",
       "label": "Colors & Thresholds",
       "collapsible": true,
