@@ -91,6 +91,29 @@
           "label": "Natural"
         }
       ]
+    },
+    {
+      "name": "line_scale",
+      "label": "Scale",
+      "type": "select",
+      "options": [
+        {
+          "value": "linear",
+          "label": "Linear"
+        },
+        {
+          "value": "log",
+          "label": "Logarithmic"
+        },
+        {
+          "value": "quadratic",
+          "label": "Quadratic"
+        },
+        {
+          "value": "cubic",
+          "label": "Cubic"
+        }
+      ]
     }
   ],
   "layout": [
