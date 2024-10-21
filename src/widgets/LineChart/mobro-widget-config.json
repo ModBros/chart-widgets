@@ -35,6 +35,29 @@
       "type": "number"
     },
     {
+      "name": "line_scale",
+      "label": "Scale",
+      "type": "select",
+      "options": [
+        {
+          "value": "linear",
+          "label": "Linear"
+        },
+        {
+          "value": "log",
+          "label": "Logarithmic"
+        },
+        {
+          "value": "quadratic",
+          "label": "Quadratic"
+        },
+        {
+          "value": "cubic",
+          "label": "Cubic"
+        }
+      ]
+    },
+    {
       "name": "yaxis_label_color",
       "label": "Label Color",
       "type": "color"
@@ -69,13 +92,23 @@
       "type": "color"
     },
     {
+      "name": "fill_line",
+      "label": "Fill Line",
+      "type": "checkbox"
+    },
+    {
+      "name": "line_fill_color",
+      "label": "Fill Color",
+      "type": "color"
+    },
+    {
       "name": "line_width",
-      "label": "Width",
+      "label": "Line Width",
       "type": "number"
     },
     {
       "name": "line_curve",
-      "label": "Curve",
+      "label": "Line Curve",
       "type": "select",
       "options": [
         {
@@ -93,56 +126,102 @@
       ]
     },
     {
-      "name": "line_scale",
-      "label": "Scale",
-      "type": "select",
-      "options": [
+      "name": "additional_lines",
+      "label": "Add Lines",
+      "type": "repeater",
+      "config": [
         {
-          "value": "linear",
-          "label": "Linear"
+          "name": "metric",
+          "label": "Metric",
+          "type": "metric",
+          "filters": {
+            "valueTypes": [
+              "Numeric",
+              "Duration",
+              "Currency"
+            ]
+          }
         },
         {
-          "value": "log",
-          "label": "Logarithmic"
+          "name": "line_color",
+          "label": "Color",
+          "type": "color"
         },
         {
-          "value": "quadratic",
-          "label": "Quadratic"
-        },
-        {
-          "value": "cubic",
-          "label": "Cubic"
+          "name": "line_fill_color",
+          "label": "Fill Color",
+          "type": "color"
         }
       ]
     }
   ],
   "layout": [
-    "metric",
-    "history_count",
     {
-      "type": "fieldset",
-      "label": "Y Axis",
-      "collapsible": true,
-      "collapsed": true,
+      "type": "tabs",
       "children": [
-        "min",
-        "max",
-        "yaxis_label_color",
-        "yaxis_label_font_size",
-        "yaxis_label_font",
-        "yaxis_label_space",
-        "hide_yaxis"
-      ]
-    },
-    {
-      "type": "fieldset",
-      "label": "Line",
-      "collapsible": true,
-      "collapsed": true,
-      "children": [
-        "line_color",
-        "line_width",
-        "line_curve"
+        {
+          "type": "tab",
+          "label": "Lines",
+          "children": [
+            {
+              "type": "fieldset",
+              "label": "Base Line",
+              "collapsible": true,
+              "children": [
+                "metric",
+                "line_color",
+                "line_fill_color"
+              ]
+            },
+            {
+              "type": "fieldset",
+              "label": "Settings",
+              "collapsible": true,
+              "children": [
+                "line_width",
+                "line_curve",
+                "fill_line"
+              ]
+            },
+            {
+              "type": "fieldset",
+              "label": "Additional Lines",
+              "collapsible": true,
+              "children": [
+                "additional_lines"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tab",
+          "label": "Axis",
+          "children": [
+            {
+              "type": "fieldset",
+              "label": "X Axis",
+              "collapsible": true,
+              "children": [
+                "history_count"
+              ]
+            },
+            {
+              "type": "fieldset",
+              "label": "Y Axis",
+              "collapsible": true,
+              "children": [
+                "min",
+                "max",
+                "line_scale",
+                "yaxis_label_color",
+                "yaxis_label_font_size",
+                "yaxis_label_font",
+                "yaxis_label_space",
+                "hide_yaxis"
+              ]
+            }
+          ]
+        }
       ]
     }
   ]

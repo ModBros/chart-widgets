@@ -33,7 +33,7 @@ export function useMetricFieldHistory(props: UseMetricFieldHistoryProps): {
   }
 
   return {
-    values: historyRef.current,
+    values: [...historyRef.current],
     unit: channelValue?.unit
   }
 }

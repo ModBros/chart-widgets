@@ -80,6 +80,7 @@
     {
       "type": "fieldset",
       "label": "Look and feel",
+      "collapsible": true,
       "children": [
         "max",
         "corner_radius"
