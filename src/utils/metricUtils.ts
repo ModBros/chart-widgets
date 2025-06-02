@@ -1,6 +1,10 @@
-import {ChannelValue} from '@modbros/dashboard-core'
-import {Color, useColorField, useNumberField} from '@modbros/dashboard-sdk'
-import {defaultChartCriticalColor, defaultChartWarningColor} from './constants'
+import { ChannelValue } from '@modbros/dashboard-core'
+import { Color, useColorField, useNumberField } from '@modbros/dashboard-sdk'
+import {
+  defaultChartCriticalColor,
+  defaultChartWarningColor
+} from './constants'
+import { isFinite } from 'lodash-es'
 
 export function getMetricMaxValue(
   channelValue: ChannelValue,
@@ -8,12 +12,19 @@ export function getMetricMaxValue(
 ): number {
   const metricValue = channelValue?.value
   const metricStatistics = metricValue?.statistics
-  const value = parseFloat(metricValue?.value?.toString())
+  const value = isFinite(metricValue?.value)
+    ? parseFloat(metricValue?.value?.toString())
+    : 0
 
-  return Math.max(
-    maxValue ?? parseFloat(metricStatistics?.max?.toString() ?? '0'),
-    value
-  )
+  if (isFinite(maxValue)) {
+    return Math.max(maxValue, value)
+  }
+
+  if (isFinite(metricStatistics?.max)) {
+    return Math.max(parseFloat(metricStatistics?.max?.toString()), value)
+  }
+
+  return Math.max(0, value)
 }
 
 export function format24h(hideSeconds: boolean): string {
@@ -73,7 +84,11 @@ export function useThresholds(
         color = warningColor
       }
 
-      if (criticalValue && criticalColor.toRgbaCss() && value >= criticalValue) {
+      if (
+        criticalValue &&
+        criticalColor.toRgbaCss() &&
+        value >= criticalValue
+      ) {
         color = criticalColor
       }
 

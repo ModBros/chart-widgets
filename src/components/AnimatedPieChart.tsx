@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, PropsWithChildren } from "react";
 import { Group, Shape } from '@visx/visx'
 import { Color } from '@modbros/dashboard-sdk'
 import { ProvidedProps } from '@visx/shape/lib/shapes/Pie'
@@ -60,8 +60,8 @@ interface AnimatedPieChartProps {
   outerRadius?: number
 }
 
-export const AnimatedPieChart: FunctionComponent<AnimatedPieChartProps> = (
-  props
+export const AnimatedPieChart = (
+  props: PropsWithChildren<AnimatedPieChartProps>
 ) => {
   const {
     thickness,
