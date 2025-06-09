@@ -16,6 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": "."
   },
-  "files": [],
-  "include": []
+  "include": [
+    "src"
+  ]
 }

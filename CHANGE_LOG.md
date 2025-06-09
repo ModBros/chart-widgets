@@ -1,3 +1,10 @@
+# 1.0.0
+
+- Added multi line support to LineChart.
+- Added configuration layouts.
+- Added min sdk support.
+- Fixed an issue where bar charts would not auto recover if a metric value is not available at first.
+
 # 0.0.11
 
 ## Bufixes
