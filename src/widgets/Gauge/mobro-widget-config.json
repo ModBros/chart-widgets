@@ -25,6 +25,13 @@
       "type": "number"
     },
     {
+      "name": "open_angle_percent",
+      "label": "Opening Gap in %",
+      "type": "number",
+      "min": 0,
+      "max": 100
+    },
+    {
       "name": "thickness",
       "label": "Thickness",
       "type": "number",
@@ -95,7 +102,8 @@
       "children": [
         "max",
         "thickness",
-        "corner_radius"
+        "corner_radius",
+        "open_angle_percent"
       ]
     }, {
       "type": "fieldset",

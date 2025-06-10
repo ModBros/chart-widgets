@@ -1,10 +1,16 @@
-import React, {FunctionComponent} from 'react'
-import {AnimatedPieChart} from '../../components/AnimatedPieChart'
-import {Shape} from '@visx/visx'
-import {useDefaultPieFields} from '../../utils/useDefaultPieFields'
-import {Loading, MissingConfigPlaceholder, useCheckboxField, useIsMetricFieldConfigured} from '@modbros/dashboard-sdk'
-import {useThresholds} from '../../utils/metricUtils'
-import {defaultChartFrontColor} from '../../utils/constants'
+import React, { FunctionComponent } from 'react'
+import { AnimatedPieChart } from '../../components/AnimatedPieChart'
+import { Shape } from '@visx/visx'
+import { useDefaultPieFields } from '../../utils/useDefaultPieFields'
+import {
+  Loading,
+  MissingConfigPlaceholder,
+  useCheckboxField,
+  useIsMetricFieldConfigured,
+  useNumberField
+} from '@modbros/dashboard-sdk'
+import { useThresholds } from '../../utils/metricUtils'
+import { defaultChartFrontColor } from '../../utils/constants'
 
 const GaugeChart: FunctionComponent = () => {
   const {
@@ -20,22 +26,25 @@ const GaugeChart: FunctionComponent = () => {
     value
   } = useDefaultPieFields()
 
-  const hideThresholds = useCheckboxField({field: 'hide_thresholds'})
-  const {warningValue, warningColor, criticalValue, criticalColor, getColor} =
+  const openAngleInPercent = useNumberField({
+    field: 'open_angle_percent',
+    defaultValue: 25
+  })
+  const hideThresholds = useCheckboxField({ field: 'hide_thresholds' })
+  const { warningValue, warningColor, criticalValue, criticalColor, getColor } =
     useThresholds(color, max, true)
 
-  const metricConfigured = useIsMetricFieldConfigured({field: 'metric'})
+  const metricConfigured = useIsMetricFieldConfigured({ field: 'metric' })
 
   if (!metricConfigured) {
-    return <MissingConfigPlaceholder text={'Please provide a metric'}/>
+    return <MissingConfigPlaceholder text={'Please provide a metric'} />
   }
 
   if (!channelValue?.value) {
-    return <Loading/>
+    return <Loading />
   }
 
-  const angleFactor = 1.5
-  const endAngle = Math.PI / angleFactor
+  const endAngle = (Math.PI * (100 - openAngleInPercent)) / 100
   const startAngle = -endAngle
   const thresholdThickness = !hideThresholds ? thickness / 3 : 0
 

@@ -1,3 +1,7 @@
+# 1.1.0
+
+- Added opening gap in percent for gauge.
+
 # 1.0.0
 
 - Added multi line support to LineChart.
