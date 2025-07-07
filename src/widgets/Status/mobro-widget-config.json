@@ -1,0 +1,118 @@
+{
+  "name": "status_chart",
+  "displayName": "Status Chart",
+  "filename": "Status.tsx",
+  "config": [
+    {
+      "name": "metric",
+      "label": "Metric",
+      "type": "metric",
+      "filters": {
+        "valueTypes": [
+          "Boolean"
+        ]
+      }
+    },
+    {
+      "name": "color_true",
+      "label": "Color (yes)",
+      "type": "color"
+    },
+    {
+      "name": "color_false",
+      "label": "Color (no)",
+      "type": "color"
+    },
+    {
+      "name": "image_true",
+      "label": "Image (yes)",
+      "type": "file",
+      "accept": "image/*"
+    },
+    {
+      "name": "image_false",
+      "label": "Image (no)",
+      "type": "file",
+      "accept": "image/*"
+    },
+    {
+      "name": "image_size",
+      "label": "Size",
+      "type": "select",
+      "options": [
+        {
+          "label": "Cover",
+          "value": "cover"
+        },
+        {
+          "label": "Contain",
+          "value": "contain"
+        }
+      ]
+    },
+    {
+      "name": "image_position_x",
+      "label": "Horizontal Align",
+      "type": "select",
+      "options": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    },
+    {
+      "name": "image_position_y",
+      "label": "Vertical Align",
+      "type": "select",
+      "options": [
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "metric",
+    {
+      "type": "fieldset",
+      "label": "Colors",
+      "collapsible": true,
+      "collapsed": true,
+      "children": [
+        "color_true",
+        "color_false"
+      ]
+    },
+    {
+      "type": "fieldset",
+      "label": "Images",
+      "collapsible": true,
+      "collapsed": true,
+      "children": [
+        "image_true",
+        "image_false",
+        "image_size",
+        "image_position_x",
+        "image_position_y"
+      ]
+    }
+  ]
+}

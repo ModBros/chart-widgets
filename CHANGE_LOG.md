@@ -1,6 +1,7 @@
 # 1.1.0
 
 - Added opening gap in percent for gauge.
+- Added status chart widget to display true, false (boolean) values.
 
 # 1.0.0
 

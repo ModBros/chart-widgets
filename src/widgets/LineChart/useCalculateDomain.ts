@@ -47,8 +47,6 @@ export function useCalculateDomain(
     lineDomain[0] = Math.floor(min(lineDomain))
     lineDomain[1] = Math.ceil(max(lineDomain))
 
-    console.log(lineDomain);
-
     setDomain((prevDomain) => {
       if (isEqual(prevDomain, lineDomain)) {
         return prevDomain
