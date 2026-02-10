@@ -201,6 +201,11 @@
       ]
     },
     {
+      "name": "hide_time",
+      "label": "Hide Time",
+      "type": "checkbox"
+    },
+    {
       "name": "hide_seconds",
       "label": "Hide Seconds",
       "type": "checkbox"
@@ -223,6 +228,10 @@
           "value": "M-D-Y"
         }
       ]
+    }, {
+      "name": "hide_date",
+      "label": "Hide Date",
+      "type": "checkbox"
     },
     {
       "name": "date_separator",
@@ -313,8 +322,10 @@
               "collapsed": true,
               "children": [
                 "time_format",
+                "hide_time",
                 "hide_seconds",
                 "date_format",
+                "hide_date",
                 "date_separator"
               ]
             }
