@@ -28,7 +28,7 @@ const GaugeChart: FunctionComponent = () => {
 
   const openAngleInPercent = useNumberField({
     field: 'open_angle_percent',
-    defaultValue: 25
+    defaultValue: 33
   })
   const hideThresholds = useCheckboxField({ field: 'hide_thresholds' })
   const { warningValue, warningColor, criticalValue, criticalColor, getColor } =

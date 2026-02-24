@@ -1,3 +1,8 @@
+# 1.2.0
+
+- Added possibility to hide date or time for date time metrics.
+- Changed the default open angle for gauges to align with older versions.
+
 # 1.1.0
 
 - Added opening gap in percent for gauge.
