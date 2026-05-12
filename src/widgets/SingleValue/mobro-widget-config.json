@@ -228,7 +228,8 @@
           "value": "M-D-Y"
         }
       ]
-    }, {
+    },
+    {
       "name": "hide_date",
       "label": "Hide Date",
       "type": "checkbox"
@@ -249,6 +250,25 @@
         {
           "label": "Slash",
           "value": "/"
+        }
+      ]
+    },
+    {
+      "name": "truncation",
+      "label": "Truncation",
+      "type": "select",
+      "options": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Ellipsis",
+          "value": "ellipsis"
+        },
+        {
+          "label": "Running",
+          "value": "running"
         }
       ]
     }
@@ -272,13 +292,7 @@
         {
           "type": "tab",
           "label": "Label",
-          "children": [
-            "label",
-            "hide_label",
-            "font",
-            "font_color",
-            "font_size"
-          ]
+          "children": ["label", "hide_label", "font", "font_color", "font_size"]
         },
         {
           "type": "tab",
@@ -290,6 +304,7 @@
             "value_font_size",
             "small_unit",
             "hide_unit",
+            "truncation",
             {
               "type": "fieldset",
               "label": "Colors & Thresholds",
@@ -300,18 +315,12 @@
                 {
                   "type": "fieldset",
                   "label": "Warning",
-                  "children": [
-                    "warning_threshold",
-                    "warning_color"
-                  ]
+                  "children": ["warning_threshold", "warning_color"]
                 },
                 {
                   "type": "fieldset",
                   "label": "Critical",
-                  "children": [
-                    "critical_threshold",
-                    "critical_color"
-                  ]
+                  "children": ["critical_threshold", "critical_color"]
                 }
               ]
             },

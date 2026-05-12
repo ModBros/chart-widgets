@@ -1,4 +1,10 @@
-import React, { CSSProperties, FunctionComponent, useCallback } from 'react'
+import React, {
+  CSSProperties,
+  FunctionComponent,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import {
   Loading,
   MissingConfigPlaceholder,
@@ -12,7 +18,7 @@ import {
   useSelectField,
   useStringField
 } from '@modbros/dashboard-sdk'
-import styled from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import { isEmpty } from 'lodash-es'
 import {
   ChannelValue,
@@ -26,6 +32,17 @@ import {
   getMetricMaxValue,
   useThresholds
 } from '../../utils/metricUtils'
+
+const runningText = keyframes`
+  0% {
+    transform: translate(0, 0);
+    left: 100%;
+  }
+  100% {
+    transform: translate(-100%, 0);
+    left: 0;
+  }
+`
 
 const Container = styled.div`
   display: flex;
@@ -116,17 +133,78 @@ function useFormatValue() {
   }
 }
 
+const StyledValueContainer = styled.div<{
+  $overflow: string
+}>`
+  position: relative;
+
+  ${({ $overflow }) => {
+    if ($overflow === 'none') {
+      return
+    }
+
+    return css`
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ${$overflow === 'ellipsis' ? 'ellipsis' : 'initial'};
+    `
+  }}
+`
+
+const StyledValue = styled.strong<{
+  $overflow: string
+}>`
+  ${({ $overflow }) => {
+    if ($overflow === 'running') {
+      return css`
+        display: inline-block;
+
+        &.running {
+          position: relative;
+          animation: 5s ${runningText} linear infinite;
+        }
+      `
+    }
+  }}
+`
+
 const Value: FunctionComponent<
   ChannelValueProp & { value: FormattedMetricValue }
 > = (props) => {
   const { value, channelValue } = props
 
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const textRef = useRef<HTMLSpanElement | null>(null)
   const valueFont = useFontField({ field: 'value_font' })
   const valueFontSize = useNumberField({ field: 'value_font_size' })
   const valueFontColor = useColorField({ field: 'value_font_color' })
   const maxValue = useNumberField({ field: 'max' })
   const max = getMetricMaxValue(channelValue, maxValue)
   const { getColor } = useThresholds(valueFontColor, max)
+  const truncation = useSelectField({
+    field: 'truncation',
+    defaultValue: 'none'
+  })
+  const [running, setRunning] = useState(false)
+
+  useEffect(() => {
+    const container = containerRef.current
+    const text = textRef.current
+
+    if (!container || !text) {
+      return
+    }
+
+    const observer = new ResizeObserver(() => {
+      setRunning(container.clientWidth < text.clientWidth)
+    })
+
+    observer.observe(container)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [])
 
   let color = valueFontColor
 
@@ -135,17 +213,22 @@ const Value: FunctionComponent<
   }
 
   return (
-    <strong
-      style={{
-        fontFamily: valueFont,
-        fontSize: valueFontSize ? `${valueFontSize}px` : undefined,
-        color: color.toRgbaCss()
-      }}
-    >
-      <span>{value.value}</span>
+    <StyledValueContainer $overflow={truncation} ref={containerRef}>
+      <StyledValue
+        className={running ? 'running' : undefined}
+        ref={textRef}
+        $overflow={truncation}
+        style={{
+          fontFamily: valueFont,
+          fontSize: valueFontSize ? `${valueFontSize}px` : undefined,
+          color: color.toRgbaCss()
+        }}
+      >
+        <span>{value.value}</span>
 
-      <Unit unit={value.unit} />
-    </strong>
+        <Unit unit={value.unit} />
+      </StyledValue>
+    </StyledValueContainer>
   )
 }
 
@@ -155,12 +238,24 @@ const Label: FunctionComponent<ChannelValueProp> = (props) => {
 
   const hideLabel = useCheckboxField({ field: 'hide_label' })
   const customLabel = useStringField({ field: 'label' })
+  const truncation = useSelectField({
+    field: 'truncation',
+    defaultValue: 'none'
+  })
 
   if (hideLabel) {
     return null
   }
 
-  return <span>{!isEmpty(customLabel) ? customLabel : metric.label}</span>
+  return (
+    <span
+      style={{
+        whiteSpace: truncation !== 'none' ? 'nowrap' : undefined
+      }}
+    >
+      {!isEmpty(customLabel) ? customLabel : metric.label}
+    </span>
+  )
 }
 
 const SingleValue: FunctionComponent = () => {
@@ -203,7 +298,7 @@ const SingleValue: FunctionComponent = () => {
   let second = value
 
   const styles: CSSProperties = {
-    width: spaceBetween && !hideLabel ? '100%' : 'auto',
+    width: '100%',
     justifyContent: spaceBetween ? 'space-between' : undefined,
     alignItems: 'center',
     fontSize: fontSize ? `${fontSize}px` : undefined,
