@@ -1,11 +1,13 @@
 {
   "name": "status_chart",
   "displayName": "Status Chart",
+  "description": "A boolean indicator that visually represents true/false states using colored circles (traffic light style) or custom uploaded images. Use it to monitor whether a fan is running, a service is online, or any other binary status.",
   "filename": "Status.tsx",
   "config": [
     {
       "name": "metric",
       "label": "Metric",
+      "description": "The boolean metric to monitor for true/false state",
       "type": "metric",
       "filters": {
         "valueTypes": [
@@ -16,28 +18,33 @@
     {
       "name": "color_true",
       "label": "Color (yes)",
+      "description": "The circle color displayed when the metric value is true",
       "type": "color"
     },
     {
       "name": "color_false",
       "label": "Color (no)",
+      "description": "The circle color displayed when the metric value is false",
       "type": "color"
     },
     {
       "name": "image_true",
       "label": "Image (yes)",
+      "description": "An image to display when the metric value is true. Takes priority over the color when set",
       "type": "file",
       "accept": "image/*"
     },
     {
       "name": "image_false",
       "label": "Image (no)",
+      "description": "An image to display when the metric value is false. Takes priority over the color when set",
       "type": "file",
       "accept": "image/*"
     },
     {
       "name": "image_size",
       "label": "Size",
+      "description": "How the image fills the widget. Cover scales to fill the entire area (may crop), Contain scales to fit within the area (may leave gaps)",
       "type": "select",
       "options": [
         {
@@ -53,6 +60,7 @@
     {
       "name": "image_position_x",
       "label": "Horizontal Align",
+      "description": "The horizontal alignment of the image within the widget",
       "type": "select",
       "options": [
         {
@@ -72,6 +80,7 @@
     {
       "name": "image_position_y",
       "label": "Vertical Align",
+      "description": "The vertical alignment of the image within the widget",
       "type": "select",
       "options": [
         {

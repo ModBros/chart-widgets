@@ -1,11 +1,13 @@
 {
   "name": "single_value",
   "displayName": "Single Value",
+  "description": "A text-based widget that displays the current value of any metric type including numeric, text, boolean, date/time, and images. Offers full control over alignment, fonts, colors, thresholds, date formatting, precision, and text truncation.",
   "filename": "SingleValue.tsx",
   "config": [
     {
       "name": "metric",
       "label": "Metric",
+      "description": "The metric to display. Supports all metric types including numeric, text, boolean, date/time, and resource",
       "type": "metric"
     },
     {
@@ -15,6 +17,7 @@
     {
       "name": "vertical_align",
       "label": "Vertical align",
+      "description": "Positions the content vertically within the widget",
       "type": "select",
       "options": [
         {
@@ -34,6 +37,7 @@
     {
       "name": "horizontal_align",
       "label": "Horizontal Align",
+      "description": "Positions the content horizontally within the widget",
       "type": "select",
       "options": [
         {
@@ -53,6 +57,7 @@
     {
       "name": "alignment",
       "label": "Alignment",
+      "description": "Controls whether the label appears above or below the value",
       "type": "select",
       "options": [
         {
@@ -68,12 +73,14 @@
     {
       "name": "gap",
       "label": "Gap",
+      "description": "The spacing in pixels between the label and value",
       "type": "number",
       "min": 0
     },
     {
       "name": "space_between",
       "label": "Space Between label and value",
+      "description": "Pushes the label and value to opposite ends of the widget",
       "type": "checkbox"
     },
     {
@@ -83,26 +90,31 @@
     {
       "name": "hide_label",
       "label": "Hide label",
+      "description": "Hides the label text entirely, showing only the value",
       "type": "checkbox"
     },
     {
       "name": "label",
       "label": "Label",
+      "description": "Custom text to display as the label. If not set, the metric name is used",
       "type": "string"
     },
     {
       "name": "font",
       "label": "Font",
+      "description": "The font family for the label text",
       "type": "font"
     },
     {
       "name": "font_color",
       "label": "Font Color",
+      "description": "The text color of the label",
       "type": "color"
     },
     {
       "name": "font_size",
       "label": "Font Size",
+      "description": "The font size of the label text in pixels",
       "type": "number",
       "min": 0
     },
@@ -113,33 +125,39 @@
     {
       "name": "precision",
       "label": "Precision",
+      "description": "The number of decimal places to display for numeric values",
       "type": "number",
       "min": 0
     },
     {
       "name": "max",
       "label": "Max Value",
+      "description": "Override the maximum value used for threshold percentage calculations",
       "type": "number"
     },
     {
       "name": "value_font",
       "label": "Font",
+      "description": "The font family for the value text",
       "type": "font"
     },
     {
       "name": "value_font_size",
       "label": "Font Size",
+      "description": "The font size of the value text in pixels",
       "type": "number",
       "min": 0
     },
     {
       "name": "small_unit",
       "label": "Small Unit",
+      "description": "Renders the unit in a smaller font size next to the value",
       "type": "checkbox"
     },
     {
       "name": "hide_unit",
       "label": "Hide Unit",
+      "description": "Hides the unit suffix from the displayed value",
       "type": "checkbox"
     },
     {
@@ -149,6 +167,7 @@
     {
       "name": "value_font_color",
       "label": "Font Color",
+      "description": "The default text color of the value",
       "type": "color"
     },
     {
@@ -158,12 +177,14 @@
     {
       "name": "warning_threshold",
       "label": "Threshold (%)",
+      "description": "Percentage of max value at which the value text switches to the warning color",
       "type": "number",
       "min": 0
     },
     {
       "name": "warning_color",
       "label": "Color",
+      "description": "The value text color when the warning threshold is exceeded",
       "type": "color"
     },
     {
@@ -173,12 +194,14 @@
     {
       "name": "critical_threshold",
       "label": "Threshold (%)",
+      "description": "Percentage of max value at which the value text switches to the critical color",
       "type": "number",
       "min": 0
     },
     {
       "name": "critical_color",
       "label": "Color",
+      "description": "The value text color when the critical threshold is exceeded",
       "type": "color"
     },
     {
@@ -188,6 +211,7 @@
     {
       "name": "time_format",
       "label": "Time Format",
+      "description": "Choose between 12-hour and 24-hour clock format for date/time metrics",
       "type": "select",
       "options": [
         {
@@ -203,16 +227,19 @@
     {
       "name": "hide_time",
       "label": "Hide Time",
+      "description": "Hides the time portion of date/time metrics",
       "type": "checkbox"
     },
     {
       "name": "hide_seconds",
       "label": "Hide Seconds",
+      "description": "Hides seconds from the time display, showing only hours and minutes",
       "type": "checkbox"
     },
     {
       "name": "date_format",
       "label": "Date Format",
+      "description": "The order of day, month, and year in the date display",
       "type": "select",
       "options": [
         {
@@ -232,11 +259,13 @@
     {
       "name": "hide_date",
       "label": "Hide Date",
+      "description": "Hides the date portion of date/time metrics, showing only the time",
       "type": "checkbox"
     },
     {
       "name": "date_separator",
       "label": "Separator",
+      "description": "The character used to separate day, month, and year in the date display",
       "type": "select",
       "options": [
         {
@@ -256,6 +285,7 @@
     {
       "name": "truncation",
       "label": "Truncation",
+      "description": "How to handle text that overflows the widget. None shows full text, Ellipsis adds '...' at the end, Running creates a scrolling marquee effect",
       "type": "select",
       "options": [
         {

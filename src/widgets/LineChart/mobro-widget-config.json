@@ -1,11 +1,13 @@
 {
   "name": "line_chart",
   "displayName": "Line Chart",
+  "description": "A time-series line chart that plots metric values over time. Supports multiple overlaid lines.",
   "filename": "LineChart.tsx",
   "config": [
     {
       "name": "metric",
       "label": "Metric",
+      "description": "The primary metric to plot as the base line",
       "type": "metric",
       "filters": {
         "valueTypes": [
@@ -18,6 +20,7 @@
     {
       "name": "history_count",
       "label": "History count",
+      "description": "The number of data points to keep visible on the chart. Higher values show more history",
       "type": "number"
     },
     {
@@ -27,16 +30,19 @@
     {
       "name": "min",
       "label": "Min Value",
+      "description": "The minimum value on the Y-axis. If not set, it is automatically calculated from the data",
       "type": "number"
     },
     {
       "name": "max",
       "label": "Max Value",
+      "description": "The maximum value on the Y-axis. If not set, it is automatically calculated from the data",
       "type": "number"
     },
     {
       "name": "line_scale",
       "label": "Scale",
+      "description": "The scale function for the Y-axis. Linear is the default; logarithmic compresses large ranges; quadratic and cubic emphasize higher values",
       "type": "select",
       "options": [
         {
@@ -60,26 +66,31 @@
     {
       "name": "yaxis_label_color",
       "label": "Label Color",
+      "description": "The text color of the Y-axis labels",
       "type": "color"
     },
     {
       "name": "yaxis_label_font_size",
       "label": "Font Size",
+      "description": "The font size of the Y-axis labels in pixels",
       "type": "number"
     },
     {
       "name": "yaxis_label_font",
       "label": "Label Font",
+      "description": "The font family used for Y-axis labels",
       "type": "font"
     },
     {
       "name": "yaxis_label_space",
       "label": "Label Space",
+      "description": "The amount of horizontal space reserved for the Y-axis labels in pixels",
       "type": "number"
     },
     {
       "name": "hide_yaxis",
       "label": "Hide",
+      "description": "Hides the Y-axis and its labels for a cleaner look",
       "type": "checkbox"
     },
     {
@@ -89,26 +100,31 @@
     {
       "name": "line_color",
       "label": "Color",
+      "description": "The stroke color of the line",
       "type": "color"
     },
     {
       "name": "fill_line",
       "label": "Fill Line",
+      "description": "Enables a filled area beneath the line",
       "type": "checkbox"
     },
     {
       "name": "line_fill_color",
       "label": "Fill Color",
+      "description": "The color of the filled area beneath the line when Fill Line is enabled",
       "type": "color"
     },
     {
       "name": "line_width",
       "label": "Line Width",
+      "description": "The thickness of the line stroke in pixels",
       "type": "number"
     },
     {
       "name": "line_curve",
       "label": "Line Curve",
+      "description": "The interpolation style between data points. Linear connects with straight lines, monotone creates smooth curves that preserve monotonicity, natural creates smooth natural-looking curves",
       "type": "select",
       "options": [
         {
@@ -128,11 +144,13 @@
     {
       "name": "additional_lines",
       "label": "Add Lines",
+      "description": "Add extra metric lines to overlay on the same chart for comparison",
       "type": "repeater",
       "config": [
         {
           "name": "metric",
           "label": "Metric",
+          "description": "The metric to plot for this additional line",
           "type": "metric",
           "filters": {
             "valueTypes": [
@@ -145,11 +163,13 @@
         {
           "name": "line_color",
           "label": "Color",
+          "description": "The stroke color of this additional line",
           "type": "color"
         },
         {
           "name": "line_fill_color",
           "label": "Fill Color",
+          "description": "The fill color beneath this additional line when Fill Line is enabled",
           "type": "color"
         }
       ]

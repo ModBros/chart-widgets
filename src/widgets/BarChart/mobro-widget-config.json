@@ -1,11 +1,13 @@
 {
   "name": "bar_chart",
   "displayName": "Bar Chart",
+  "description": "A horizontal progress bar that fills based on a metric's current value. Ideal for disk usage, memory, and CPU thread loads.",
   "filename": "BarChart.tsx",
   "config": [
     {
       "name": "metric",
       "label": "Metric",
+      "description": "The metric to display in the bar chart",
       "type": "metric",
       "filters": {
         "valueTypes": [
@@ -22,11 +24,13 @@
     {
       "name": "max",
       "label": "Max Value",
+      "description": "Override the maximum value for the bar. If not set, the max is automatically determined from the metric",
       "type": "number"
     },
     {
       "name": "corner_radius",
       "label": "Corner Radius",
+      "description": "Rounds the corners of the bar. Set to 0 for sharp edges",
       "type": "number",
       "min": 0
     },
@@ -37,11 +41,13 @@
     {
       "name": "color",
       "label": "Color",
+      "description": "The fill color of the bar",
       "type": "color"
     },
     {
       "name": "back_color",
       "label": "Back Color",
+      "description": "The background color behind the bar",
       "type": "color"
     },
     {
@@ -51,12 +57,14 @@
     {
       "name": "warning_threshold",
       "label": "Threshold (%)",
+      "description": "Percentage of max value at which the bar switches to the warning color",
       "type": "number",
       "min": 0
     },
     {
       "name": "warning_color",
       "label": "Color",
+      "description": "The bar color when the warning threshold is exceeded",
       "type": "color"
     },
     {
@@ -66,12 +74,14 @@
     {
       "name": "critical_threshold",
       "label": "Threshold (%)",
+      "description": "Percentage of max value at which the bar switches to the critical color",
       "type": "number",
       "min": 0
     },
     {
       "name": "critical_color",
       "label": "Color",
+      "description": "The bar color when the critical threshold is exceeded",
       "type": "color"
     }
   ],

@@ -1,11 +1,13 @@
 {
   "name": "gauge",
   "displayName": "Gauge Chart",
+  "description": "A partial-arc gauge with a configurable opening gap, similar to a speedometer. Best suited for CPU and GPU usage monitoring.",
   "filename": "GaugeChart.tsx",
   "config": [
     {
       "name": "metric",
       "label": "Metric",
+      "description": "The metric to display in the gauge",
       "type": "metric",
       "filters": {
         "valueTypes": [
@@ -22,11 +24,13 @@
     {
       "name": "max",
       "label": "Max Value",
+      "description": "Override the maximum value for the gauge. If not set, the max is automatically determined from the metric",
       "type": "number"
     },
     {
       "name": "open_angle_percent",
       "label": "Opening Gap in %",
+      "description": "Controls how much of the bottom of the gauge is open. 0% creates a full circle, higher values create a wider opening",
       "type": "number",
       "min": 0,
       "max": 100
@@ -34,12 +38,14 @@
     {
       "name": "thickness",
       "label": "Thickness",
+      "description": "The width of the gauge arc in pixels",
       "type": "number",
       "min": 1
     },
     {
       "name": "corner_radius",
       "label": "Corner Radius",
+      "description": "Rounds the ends of the gauge arc. Set to 0 for flat edges",
       "type": "number",
       "min": 0
     },
@@ -50,16 +56,19 @@
     {
       "name": "color",
       "label": "Color",
+      "description": "The fill color of the gauge arc",
       "type": "color"
     },
     {
       "name": "back_color",
       "label": "Back Color",
+      "description": "The background color of the unfilled portion of the gauge",
       "type": "color"
     },
     {
       "name": "hide_thresholds",
       "label": "Hide Thresholds",
+      "description": "Hides the outer threshold ring that shows normal, warning, and critical zones",
       "type": "checkbox"
     },
     {
@@ -69,12 +78,14 @@
     {
       "name": "warning_threshold",
       "label": "Threshold (%)",
+      "description": "Percentage of max value at which the gauge switches to the warning color",
       "type": "number",
       "min": 0
     },
     {
       "name": "warning_color",
       "label": "Color",
+      "description": "The gauge color when the warning threshold is exceeded",
       "type": "color"
     },
     {
@@ -84,12 +95,14 @@
     {
       "name": "critical_threshold",
       "label": "Threshold (%)",
+      "description": "Percentage of max value at which the gauge switches to the critical color",
       "type": "number",
       "min": 0
     },
     {
       "name": "critical_color",
       "label": "Color",
+      "description": "The gauge color when the critical threshold is exceeded",
       "type": "color"
     }
   ],

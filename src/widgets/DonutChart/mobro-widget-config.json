@@ -1,11 +1,13 @@
 {
   "name": "donut_chart",
   "displayName": "Donut Chart",
+  "description": "A full-circle ring chart that displays a single metric as an animated filled arc. Great for fan speeds, temperatures, and other single-metric visualizations.",
   "filename": "DonutChart.tsx",
   "config": [
     {
       "name": "metric",
       "label": "Metric",
+      "description": "The metric to display in the donut chart",
       "type": "metric",
       "filters": {
         "valueTypes": [
@@ -22,17 +24,20 @@
     {
       "name": "max",
       "label": "Max Value",
+      "description": "Override the maximum value for the arc. If not set, the max is automatically determined from the metric",
       "type": "number"
     },
     {
       "name": "thickness",
       "label": "Thickness",
+      "description": "The width of the donut ring in pixels",
       "type": "number",
       "min": 1
     },
     {
       "name": "corner_radius",
       "label": "Corner Radius",
+      "description": "Rounds the ends of the donut arc. Set to 0 for flat edges",
       "type": "number",
       "min": 0
     },
@@ -43,11 +48,13 @@
     {
       "name": "color",
       "label": "Color",
+      "description": "The fill color of the donut arc",
       "type": "color"
     },
     {
       "name": "back_color",
       "label": "Back Color",
+      "description": "The background color of the unfilled portion of the ring",
       "type": "color"
     },
     {
@@ -57,12 +64,14 @@
     {
       "name": "warning_threshold",
       "label": "Threshold (%)",
+      "description": "Percentage of max value at which the arc switches to the warning color",
       "type": "number",
       "min": 0
     },
     {
       "name": "warning_color",
       "label": "Color",
+      "description": "The arc color when the warning threshold is exceeded",
       "type": "color"
     },
     {
@@ -72,12 +81,14 @@
     {
       "name": "critical_threshold",
       "label": "Threshold (%)",
+      "description": "Percentage of max value at which the arc switches to the critical color",
       "type": "number",
       "min": 0
     },
     {
       "name": "critical_color",
       "label": "Color",
+      "description": "The arc color when the critical threshold is exceeded",
       "type": "color"
     }
   ],
