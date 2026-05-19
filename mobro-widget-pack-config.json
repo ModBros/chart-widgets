@@ -1,6 +1,6 @@
 {
   "name": "modbros_charts",
   "displayName": "Charts",
-  "description": "Includes highly customizable base widgets such as textual values, bar/line charts, donuts and gauges.",
+  "description": "A collection of highly customizable chart widgets for visualizing your metrics on your MoBro dashboard. Customize colors, fonts, thresholds, units, and more to build the perfect monitoring setup.",
   "author": "ModBros"
 }
