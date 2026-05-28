@@ -298,7 +298,8 @@ const SingleValue: FunctionComponent = () => {
   let second = value
 
   const styles: CSSProperties = {
-    width: '100%',
+    width: spaceBetween ? '100%' : undefined,
+    maxWidth: '100%',
     justifyContent: spaceBetween ? 'space-between' : undefined,
     alignItems: 'center',
     fontSize: fontSize ? `${fontSize}px` : undefined,

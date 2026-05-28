@@ -1,3 +1,12 @@
+# 1.3.1
+
+- Fixed issue with horizontal alignment not working anymore.
+
+# 1.3.0
+
+- Added support for truncation mode of the value.
+- Added descriptions and icons.
+
 # 1.2.0
 
 - Added possibility to hide date or time for date time metrics.
