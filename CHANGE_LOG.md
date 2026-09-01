@@ -1,3 +1,7 @@
+# 1.3.2
+
+- Fixed issue with SingleValue widgets not updating when changing a configuration until a new value is displayed.
+
 # 1.3.1
 
 - Fixed issue with horizontal alignment not working anymore.

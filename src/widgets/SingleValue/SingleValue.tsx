@@ -276,12 +276,12 @@ const SingleValue: FunctionComponent = () => {
   const alignment = useSelectField({ field: 'alignment' })
   const metricConfigured = useIsMetricFieldConfigured({ field: 'metric' })
 
-  const memo = useFormatValue()
+  const formatValue = useFormatValue()
 
-  const { value: memoizedValue, channelValue } = useMemoizedMetricField({
-    field: 'metric',
-    memo
-  })
+  // note: the metric value itself is memoized to avoid re-renders on identical
+  // values, but the formatting is applied during render so config changes are
+  // picked up immediately - even while metric updates are disabled
+  const { channelValue } = useMemoizedMetricField({ field: 'metric' })
 
   if (!metricConfigured) {
     return <MissingConfigPlaceholder text={'Please provide a metric'} />
@@ -291,8 +291,14 @@ const SingleValue: FunctionComponent = () => {
     return <Loading />
   }
 
+  const formattedValue = formatValue(channelValue)
+
+  if (!formattedValue) {
+    return <Loading />
+  }
+
   const label = <Label channelValue={channelValue} />
-  const value = <Value channelValue={channelValue} value={memoizedValue} />
+  const value = <Value channelValue={channelValue} value={formattedValue} />
 
   let first = label
   let second = value
